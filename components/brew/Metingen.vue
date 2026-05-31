@@ -3,22 +3,14 @@
     <div class="border rounded-lg p-4 space-y-3">
       <div class="flex justify-between items-center">
         <h3 class="font-semibold">{{ $t('brew.tabs.metingen.title') }}</h3>
-        <div class="flex items-center gap-2">
-          <span class="text-sm text-muted-foreground"
-            >{{ measurements.length }} {{ $t('brew.measurements').toLowerCase() }}</span
-          >
-          <button
-            class="px-3 py-1.5 bg-primary text-primary-foreground rounded-md text-sm font-medium"
-            @click="showForm = !showForm"
-          >
-            {{ showForm ? $t('common.cancel') : $t('common.add') }}
-          </button>
-        </div>
+        <span class="text-sm text-muted-foreground"
+          >{{ measurements.length }} {{ $t('brew.measurements').toLowerCase() }}</span
+        >
       </div>
       <BaseChart :option="option" height="420px" />
     </div>
 
-    <div v-if="showForm" class="border rounded-lg p-4 space-y-3">
+    <div class="border rounded-lg p-4 space-y-3">
       <h4 class="font-medium text-sm">{{ $t('brew.tabs.metingen.addMeasurement') }}</h4>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         <label class="text-xs font-medium text-muted-foreground">
@@ -123,7 +115,6 @@ const emit = defineEmits<{ (e: 'add-measurement', payload: Record<string, unknow
 const source = computed(() => props.measurements)
 const { option, sorted } = useTControlChart(source)
 
-const showForm = ref(false)
 const saving = ref(false)
 
 function nowLocal(): string {
@@ -145,7 +136,6 @@ async function submit() {
     }
     await $fetch(`/api/brews/${props.brewId}/measurements`, { method: 'POST', body })
     emit('add-measurement', body)
-    showForm.value = false
     form.value = { datetime: nowLocal(), sg: 1.0, tempS1: 0, tempS2: 0, setTemp: 0, notes: '' }
   } finally {
     saving.value = false

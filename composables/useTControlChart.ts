@@ -21,8 +21,8 @@ export function useTControlChart(
     }
     return {
       tooltip: { trigger: 'axis' },
-      legend: { type: 'scroll', bottom: 0 },
-      grid: { left: 48, right: 48, top: 24, bottom: 72 },
+      legend: { type: 'scroll', top: 0 },
+      grid: { left: 48, right: 48, top: 48, bottom: 40 },
       xAxis: { type: 'category', data: labels, axisLabel: { rotate: 35, fontSize: 10 } },
       yAxis: [
         { type: 'value', name: 'SG / pH / cells' },
