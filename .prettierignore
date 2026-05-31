@@ -1,0 +1,9 @@
+.nuxt
+.output
+dist
+node_modules
+data
+seed
+*.xml
+package-lock.json
+LICENSE

@@ -1,0 +1,14 @@
+services:
+  brewbuddy:
+    build: .
+    container_name: brewbuddy
+    ports:
+      - '3000:3000'
+    volumes:
+      - brewbuddy-data:/data
+    environment:
+      - NUXT_DATABASE_PATH=/data/brewbuddy.db
+    restart: unless-stopped
+
+volumes:
+  brewbuddy-data:

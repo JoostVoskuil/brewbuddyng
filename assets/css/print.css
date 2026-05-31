@@ -1,0 +1,160 @@
+@page {
+  size: A4;
+  margin: 14mm 12mm;
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #111 !important;
+    font-size: 10pt;
+  }
+
+  nav,
+  aside:not([data-print-keep]),
+  button,
+  .no-print,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  main,
+  article,
+  section,
+  .card,
+  .rounded-lg,
+  .rounded-md {
+    box-shadow: none !important;
+  }
+
+  a {
+    color: #111 !important;
+    text-decoration: none !important;
+  }
+
+  input,
+  select,
+  textarea {
+    border: 0 !important;
+    background: transparent !important;
+    color: #111 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  input[type='checkbox'] {
+    appearance: auto !important;
+    width: 1em !important;
+    height: 1em !important;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    page-break-inside: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+
+  tr,
+  td,
+  th,
+  .ingredient-row,
+  .fermentation-entry,
+  .break-inside-avoid,
+  [class*='break-inside-avoid'] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  th,
+  td {
+    border-color: #777 !important;
+  }
+
+  th,
+  .bg-muted,
+  [class*='bg-muted'] {
+    background: #eee !important;
+    color: #111 !important;
+  }
+
+  .text-muted-foreground,
+  [class*='text-muted-foreground'] {
+    color: #444 !important;
+  }
+
+  .border,
+  [class*='border'] {
+    border-color: #777 !important;
+  }
+
+  .break-after-page {
+    break-after: page;
+  }
+
+  .print-brewery-header,
+  .print\:flex {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .stock-dot,
+  [aria-label*='stock'],
+  [class*='rounded-full'] {
+    border: 1px solid #111 !important;
+    background: #fff !important;
+  }
+
+  [class*='bg-green'],
+  [class*='bg-yellow'],
+  [class*='bg-red'],
+  [class*='bg-blue'],
+  [class*='bg-amber'] {
+    background: #f2f2f2 !important;
+    color: #111 !important;
+  }
+
+  .style-range-bar,
+  [aria-label$='style range'],
+  [aria-label$='actual value'] {
+    border: 1px solid #111 !important;
+    background: repeating-linear-gradient(45deg, #fff 0, #fff 3px, #eee 3px, #eee 6px) !important;
+  }
+
+  [data-recipe-editor] {
+    display: block !important;
+  }
+
+  [data-recipe-editor] > aside,
+  [data-recipe-editor] button {
+    display: none !important;
+  }
+
+  [data-recipe-editor] table,
+  .brew-log table,
+  .inventory-report table,
+  .water-treatment-print table,
+  .neural-samples-print table {
+    font-size: 9pt;
+  }
+
+  .brew-log,
+  .checklist-print,
+  .inventory-report,
+  .water-treatment-print,
+  .neural-samples-print {
+    break-inside: auto;
+  }
+}
