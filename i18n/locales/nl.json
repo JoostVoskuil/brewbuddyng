@@ -249,6 +249,7 @@
   "brew": {
     "title": "Brouwsels",
     "new": "Nieuw brouwsel",
+    "sortBy": "Sorteer op",
     "recipe": "Recept",
     "noRecipe": "Geen recept (leeg brouwsel)",
     "date": "Brouwdatum",
@@ -448,6 +449,7 @@
     "addFermentable": "Vergistbaar toevoegen",
     "wort": "Wort",
     "beer": "Bier",
+    "wortMeasurement": "Wortmeting",
     "beerBrix": "Bier Brix (tijdens/na gisting, optioneel)",
     "brixFactor": "Brix correctiefactor",
     "attenuation": "Schijnbare vergistingsgraad",

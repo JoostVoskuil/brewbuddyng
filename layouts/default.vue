@@ -74,7 +74,7 @@ import {
   Boxes,
 } from '@lucide/vue'
 
-const { locale, setLocale } = useI18n()
+const { locale, setLocale } = useI18n({ useScope: 'global' })
 const { settings, apply } = useTheme()
 
 type ThemeMode = 'light' | 'dark' | 'system'

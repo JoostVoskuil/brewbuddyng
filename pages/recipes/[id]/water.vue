@@ -1,5 +1,5 @@
 <template>
-  <WaterTreatment :recipe-id="recipeId" />
+  <RecipeWaterTreatment :recipe-id="recipeId" />
 </template>
 
 <script setup lang="ts">

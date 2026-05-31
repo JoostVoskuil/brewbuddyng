@@ -99,3 +99,26 @@ export function useTheme() {
 
   return { settings, apply, refresh }
 }
+
+/**
+ * Loads theme settings during SSR (and initial client hydration) so the server
+ * and client render the same theme mode. Without this, the server renders the
+ * default theme ('system') while the client applies the persisted theme,
+ * producing a hydration mismatch on the theme toggle button.
+ */
+export async function loadThemeSettings() {
+  const settings = useState<Record<string, string>>('theme-settings', () => ({ ...DEFAULT_THEME }))
+
+  const { data } = await useAsyncData('theme-settings-load', () =>
+    $fetch<Record<string, string>>('/api/settings' as string),
+  )
+
+  if (data.value) {
+    settings.value = {
+      ...DEFAULT_THEME,
+      ...data.value,
+    }
+  }
+
+  return settings
+}

@@ -53,7 +53,7 @@
     <div v-if="pending" class="text-sm text-muted-foreground">{{ $t('common.loading') }}</div>
     <div v-else class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_18rem] gap-6">
       <div class="border rounded-lg p-5">
-        <PropertyGraph
+        <AnalysisPropertyGraph
           :rows="graphRows"
           :x-property="xProperty"
           :y-property="yProperty"

@@ -249,6 +249,7 @@
   "brew": {
     "title": "Brews",
     "new": "New brew",
+    "sortBy": "Sort by",
     "recipe": "Recipe",
     "noRecipe": "No recipe (blank brew)",
     "date": "Brew date",
@@ -448,6 +449,7 @@
     "addFermentable": "Add fermentable",
     "wort": "Wort",
     "beer": "Beer",
+    "wortMeasurement": "Wort measurement",
     "beerBrix": "Beer Brix (during/after fermentation, optional)",
     "brixFactor": "Brix correction factor",
     "attenuation": "Apparent attenuation",
