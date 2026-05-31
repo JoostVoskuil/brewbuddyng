@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import {
-  volumeScaleFactor,
-  scaleAmount,
-  ibuScaleFactor,
-} from '~/server/utils/calculations/scaling'
+import { volumeScaleFactor, scaleAmount, ibuScaleFactor } from '~/server/utils/calculations/scaling'
 
 describe('recipe scaling', () => {
   it('doubles amounts when doubling the batch volume', () => {

@@ -76,10 +76,34 @@ export default defineEventHandler(async (event) => {
     ]
 
     const stockByKind: Record<InventoryKind, Map<number, InventoryStockRow>> = {
-      fermentable: new Map(tx.select().from(fermentables).all().map((row) => [row.id, row])),
-      hop: new Map(tx.select().from(hops).all().map((row) => [row.id, row])),
-      yeast: new Map(tx.select().from(yeasts).all().map((row) => [row.id, row])),
-      misc: new Map(tx.select().from(miscs).all().map((row) => [row.id, row])),
+      fermentable: new Map(
+        tx
+          .select()
+          .from(fermentables)
+          .all()
+          .map((row) => [row.id, row]),
+      ),
+      hop: new Map(
+        tx
+          .select()
+          .from(hops)
+          .all()
+          .map((row) => [row.id, row]),
+      ),
+      yeast: new Map(
+        tx
+          .select()
+          .from(yeasts)
+          .all()
+          .map((row) => [row.id, row]),
+      ),
+      misc: new Map(
+        tx
+          .select()
+          .from(miscs)
+          .all()
+          .map((row) => [row.id, row]),
+      ),
     }
 
     const plan = planInventoryDeductions(requirements, stockByKind)

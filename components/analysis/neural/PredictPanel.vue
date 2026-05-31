@@ -20,7 +20,9 @@ const batchCsv = ref('')
 
 watch(
   () => props.inputParams,
-  (params) => { inputs.value = params.map((_, index) => inputs.value[index] ?? '') },
+  (params) => {
+    inputs.value = params.map((_, index) => inputs.value[index] ?? '')
+  },
   { immediate: true },
 )
 
@@ -29,7 +31,10 @@ function run() {
 }
 
 function runBatch() {
-  emit('batchPredict', parseNumericCsv(batchCsv.value).map((row) => row.slice(0, props.inputParams.length)))
+  emit(
+    'batchPredict',
+    parseNumericCsv(batchCsv.value).map((row) => row.slice(0, props.inputParams.length)),
+  )
 }
 </script>
 
@@ -42,17 +47,32 @@ function runBatch() {
         <input v-model="inputs[index]" type="number" step="any" class="field" />
       </label>
     </div>
-    <button class="btn-primary" :disabled="props.disabled">{{ t('analysis.neural.predictButton') }}</button>
+    <button class="btn-primary" :disabled="props.disabled">
+      {{ t('analysis.neural.predictButton') }}
+    </button>
     <div v-if="props.prediction" class="rounded border p-3 text-sm">
-      <div v-for="(value, index) in props.prediction" :key="index" class="flex justify-between gap-3">
+      <div
+        v-for="(value, index) in props.prediction"
+        :key="index"
+        class="flex justify-between gap-3"
+      >
         <span>{{ props.outputParams[index] || `output${index + 1}` }}</span>
         <span class="font-mono">{{ value.toFixed(5) }}</span>
       </div>
     </div>
-    <label>{{ t('analysis.neural.batchCsv') }}<textarea v-model="batchCsv" rows="4" class="field" /></label>
-    <button type="button" class="btn" :disabled="props.disabled" @click="runBatch">{{ t('analysis.neural.batchPredict') }}</button>
-    <div v-if="props.batchPredictions.length" class="max-h-40 overflow-auto rounded border p-2 text-xs font-mono">
-      <div v-for="(row, index) in props.batchPredictions" :key="index">{{ index + 1 }}: {{ row.map((value) => value.toFixed(5)).join(', ') }}</div>
+    <label
+      >{{ t('analysis.neural.batchCsv') }}<textarea v-model="batchCsv" rows="4" class="field" />
+    </label>
+    <button type="button" class="btn" :disabled="props.disabled" @click="runBatch">
+      {{ t('analysis.neural.batchPredict') }}
+    </button>
+    <div
+      v-if="props.batchPredictions.length"
+      class="max-h-40 overflow-auto rounded border p-2 text-xs font-mono"
+    >
+      <div v-for="(row, index) in props.batchPredictions" :key="index">
+        {{ index + 1 }}: {{ row.map((value) => value.toFixed(5)).join(', ') }}
+      </div>
     </div>
   </form>
 </template>

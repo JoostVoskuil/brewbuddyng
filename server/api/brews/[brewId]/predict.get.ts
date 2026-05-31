@@ -1,11 +1,7 @@
 import { useDB } from '~/server/db'
 import { brews, recipes } from '~/server/db/schema'
 import { eq } from 'drizzle-orm'
-import {
-  trainPredictor,
-  hasEnoughData,
-  type TrainingSample,
-} from '~/server/utils/calculations'
+import { trainPredictor, hasEnoughData, type TrainingSample } from '~/server/utils/calculations'
 
 /**
  * Predict the likely outcome (actual OG, FG and mash efficiency) of a brew using
@@ -46,11 +42,7 @@ export default defineEventHandler(async (event) => {
   if (!brew.recipeId) {
     return { trained: false, usableBrews: 0, reason: 'no-recipe' as const }
   }
-  const recipe = await db
-    .select()
-    .from(recipes)
-    .where(eq(recipes.id, brew.recipeId))
-    .get()
+  const recipe = await db.select().from(recipes).where(eq(recipes.id, brew.recipeId)).get()
   if (!recipe) {
     return { trained: false, usableBrews: 0, reason: 'no-recipe' as const }
   }

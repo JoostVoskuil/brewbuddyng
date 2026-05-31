@@ -8,7 +8,10 @@ function validateSettingValue(key: string, value: string) {
   if (key !== 'breweryLogo' || value === '') return
   const match = value.match(/^data:(image\/(?:png|jpeg));base64,([A-Za-z0-9+/=]+)$/)
   if (!match) {
-    throw createError({ statusCode: 400, message: 'Brewery logo must be a base64 PNG or JPEG data URL' })
+    throw createError({
+      statusCode: 400,
+      message: 'Brewery logo must be a base64 PNG or JPEG data URL',
+    })
   }
   const bytes = Buffer.from(match[2] ?? '', 'base64').byteLength
   if (bytes > MAX_LOGO_BYTES) {

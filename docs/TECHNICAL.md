@@ -125,88 +125,88 @@ docs/                    # Documentation
 
 ## Pages & routes
 
-| Route | Description |
-| ----- | ----------- |
-| `/` | Home / dashboard |
-| `/about` | About page |
-| `/inventory` | Ingredient inventory management |
-| `/settings` | Application settings (units, IBU/colour method, theme, brewery) |
-| `/recipes` | Recipe list |
-| `/recipes/new` | Create new recipe (from scratch or BeerXML import) |
-| `/recipes/[id]` | Recipe editor (ingredients, mash, water treatment) |
-| `/brews` | Brew list |
-| `/brews/new` | Create new brew from a recipe |
-| `/brews/[id]` | Brew detail (recipe, mash, brew day, checklist, fermentation, bottling, measurements, notes) |
-| `/brews/overview` | Brews overview dashboard |
-| `/databases` | Database management menu |
-| `/databases/fermentables` | Fermentables CRUD |
-| `/databases/hops` | Hops CRUD |
-| `/databases/yeasts` | Yeasts CRUD |
-| `/databases/miscs` | Miscellaneous ingredients CRUD |
-| `/databases/waters` | Water profiles CRUD |
-| `/databases/equipment` | Equipment profiles CRUD |
-| `/databases/mash-profiles` | Mash step templates CRUD |
-| `/databases/styles` | Beer styles (BJCP) database |
-| `/tools` | Calculators & tools menu |
-| `/tools/blending` | Beer blending calculator |
-| `/tools/boil-test` | Boil-off test |
-| `/tools/carbonation` | Carbonation calculator |
-| `/tools/cm-volume` | Volume estimator |
-| `/tools/dilution` | Dilution calculator |
-| `/tools/grist-wizard` | Grain substitution wizard |
-| `/tools/hop-aging` | Hop alpha acid decay calculator |
-| `/tools/hop-calculator` | Hop / IBU calculator |
-| `/tools/hydrometer-correction` | Temperature-corrected gravity reading |
-| `/tools/infusion-calculator` | Infusion / decoction step calculator |
-| `/tools/kettle-volume` | Kettle volume estimator |
-| `/tools/mash-ph` | Mash pH calculator |
-| `/tools/og-after-fermentation` | OG estimation from FG |
-| `/tools/priming` | Priming sugar calculator |
-| `/tools/refractometer` | Refractometer Brix → SG correction |
-| `/tools/sg-plato-brix` | SG / Plato / Brix converter |
-| `/tools/style-match` | Recipe vs. BJCP style comparison |
-| `/tools/timer` | Brew day countdown & stopwatch timer |
-| `/tools/water-wizard` | Water profile adjustment wizard |
-| `/tools/yeast-starter` | Single-step yeast starter calculator |
-| `/tools/yeast-starter-multi` | Multi-step yeast starter calculator |
-| `/analysis` | Analysis overview |
-| `/analysis/neural` | Neural network training & prediction |
-| `/analysis/properties` | Recipe property distribution charts |
-| `/analysis/styles` | BJCP style statistics |
+| Route                          | Description                                                                                  |
+| ------------------------------ | -------------------------------------------------------------------------------------------- |
+| `/`                            | Home / dashboard                                                                             |
+| `/about`                       | About page                                                                                   |
+| `/inventory`                   | Ingredient inventory management                                                              |
+| `/settings`                    | Application settings (units, IBU/colour method, theme, brewery)                              |
+| `/recipes`                     | Recipe list                                                                                  |
+| `/recipes/new`                 | Create new recipe (from scratch or BeerXML import)                                           |
+| `/recipes/[id]`                | Recipe editor (ingredients, mash, water treatment)                                           |
+| `/brews`                       | Brew list                                                                                    |
+| `/brews/new`                   | Create new brew from a recipe                                                                |
+| `/brews/[id]`                  | Brew detail (recipe, mash, brew day, checklist, fermentation, bottling, measurements, notes) |
+| `/brews/overview`              | Brews overview dashboard                                                                     |
+| `/databases`                   | Database management menu                                                                     |
+| `/databases/fermentables`      | Fermentables CRUD                                                                            |
+| `/databases/hops`              | Hops CRUD                                                                                    |
+| `/databases/yeasts`            | Yeasts CRUD                                                                                  |
+| `/databases/miscs`             | Miscellaneous ingredients CRUD                                                               |
+| `/databases/waters`            | Water profiles CRUD                                                                          |
+| `/databases/equipment`         | Equipment profiles CRUD                                                                      |
+| `/databases/mash-profiles`     | Mash step templates CRUD                                                                     |
+| `/databases/styles`            | Beer styles (BJCP) database                                                                  |
+| `/tools`                       | Calculators & tools menu                                                                     |
+| `/tools/blending`              | Beer blending calculator                                                                     |
+| `/tools/boil-test`             | Boil-off test                                                                                |
+| `/tools/carbonation`           | Carbonation calculator                                                                       |
+| `/tools/cm-volume`             | Volume estimator                                                                             |
+| `/tools/dilution`              | Dilution calculator                                                                          |
+| `/tools/grist-wizard`          | Grain substitution wizard                                                                    |
+| `/tools/hop-aging`             | Hop alpha acid decay calculator                                                              |
+| `/tools/hop-calculator`        | Hop / IBU calculator                                                                         |
+| `/tools/hydrometer-correction` | Temperature-corrected gravity reading                                                        |
+| `/tools/infusion-calculator`   | Infusion / decoction step calculator                                                         |
+| `/tools/kettle-volume`         | Kettle volume estimator                                                                      |
+| `/tools/mash-ph`               | Mash pH calculator                                                                           |
+| `/tools/og-after-fermentation` | OG estimation from FG                                                                        |
+| `/tools/priming`               | Priming sugar calculator                                                                     |
+| `/tools/refractometer`         | Refractometer Brix → SG correction                                                           |
+| `/tools/sg-plato-brix`         | SG / Plato / Brix converter                                                                  |
+| `/tools/style-match`           | Recipe vs. BJCP style comparison                                                             |
+| `/tools/timer`                 | Brew day countdown & stopwatch timer                                                         |
+| `/tools/water-wizard`          | Water profile adjustment wizard                                                              |
+| `/tools/yeast-starter`         | Single-step yeast starter calculator                                                         |
+| `/tools/yeast-starter-multi`   | Multi-step yeast starter calculator                                                          |
+| `/analysis`                    | Analysis overview                                                                            |
+| `/analysis/neural`             | Neural network training & prediction                                                         |
+| `/analysis/properties`         | Recipe property distribution charts                                                          |
+| `/analysis/styles`             | BJCP style statistics                                                                        |
 
 ## Components
 
 Notable components (beyond standard page-level templates):
 
-| Component | Description |
-| --------- | ----------- |
-| `StyleRangeBar.vue` | Visual range bar comparing a value to its BJCP style min/max. Shows `noRange` status when no style is assigned. |
-| `BaseChart.client.vue` | Client-only ECharts wrapper to avoid SSR hydration issues. |
-| `BrewDay.client.vue` | Brew-day measurement chart (TControl + manual entries). |
-| `NeuralPredictionPanel.vue` | Displays neural network fermentation outcome prediction. |
-| `RecipeStyleAnalysis.vue` | Grid of `StyleRangeBar` components for all recipe parameters. |
-| `RecipeToolbar.vue` | Export (BeerXML, BBCode, HTML), copy-to-brew, and import actions. |
-| `StockDot.vue` | Coloured dot showing ingredient stock state (green / yellow / red / unknown). |
-| `TreeList.vue` | Collapsible tree for nested data (hop schedule, mash steps). |
-| `brew/Metingen.vue` | Measurements tab: TControl chart + inline add-measurement form. |
-| `brew/Brouwdag.vue` | Brew-day tab: gravity readings, boil start, hop checklist. |
-| `brew/Vergisting.vue` | Fermentation tab: temperatures, actual OG/FG, attenuation. |
-| `analysis/PropertyGraph.vue` | Scatter / histogram charts for brew property analysis. |
+| Component                    | Description                                                                                                     |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `StyleRangeBar.vue`          | Visual range bar comparing a value to its BJCP style min/max. Shows `noRange` status when no style is assigned. |
+| `BaseChart.client.vue`       | Client-only ECharts wrapper to avoid SSR hydration issues.                                                      |
+| `BrewDay.client.vue`         | Brew-day measurement chart (TControl + manual entries).                                                         |
+| `NeuralPredictionPanel.vue`  | Displays neural network fermentation outcome prediction.                                                        |
+| `RecipeStyleAnalysis.vue`    | Grid of `StyleRangeBar` components for all recipe parameters.                                                   |
+| `RecipeToolbar.vue`          | Export (BeerXML, BBCode, HTML), copy-to-brew, and import actions.                                               |
+| `StockDot.vue`               | Coloured dot showing ingredient stock state (green / yellow / red / unknown).                                   |
+| `TreeList.vue`               | Collapsible tree for nested data (hop schedule, mash steps).                                                    |
+| `brew/Metingen.vue`          | Measurements tab: TControl chart + inline add-measurement form.                                                 |
+| `brew/Brouwdag.vue`          | Brew-day tab: gravity readings, boil start, hop checklist.                                                      |
+| `brew/Vergisting.vue`        | Fermentation tab: temperatures, actual OG/FG, attenuation.                                                      |
+| `analysis/PropertyGraph.vue` | Scatter / histogram charts for brew property analysis.                                                          |
 
 ## Composables
 
-| Composable | Purpose |
-| ---------- | ------- |
-| `useCsvExport` | Generic CSV builder & browser download |
-| `useInventoryFilter` | Reactive filter state (type, search, low-stock) for ingredient lists |
-| `useLocaleDate` | `Intl.DateTimeFormat` wrapper for consistent locale-aware dates |
-| `useNeuralCsv` | Parse numeric CSV into neural network training samples |
-| `useRecipeBrewClipboard` | Copy recipe → brew or brew → recipe, stripping server-managed fields |
-| `useRecipeExport` | Download recipe as BeerXML; generate BBCode / HTML forum tables |
-| `useResourceCrud` | Generic CRUD logic for all ingredient database pages |
-| `useSaveState` | Track `idle / saving / saved / error` with auto-reset timer |
-| `useTControlChart` | Build ECharts series options for the TControl fermentation graph |
-| `useTheme` | Load, persist, and apply theme (light/dark/system, accent colour, font) |
+| Composable               | Purpose                                                                 |
+| ------------------------ | ----------------------------------------------------------------------- |
+| `useCsvExport`           | Generic CSV builder & browser download                                  |
+| `useInventoryFilter`     | Reactive filter state (type, search, low-stock) for ingredient lists    |
+| `useLocaleDate`          | `Intl.DateTimeFormat` wrapper for consistent locale-aware dates         |
+| `useNeuralCsv`           | Parse numeric CSV into neural network training samples                  |
+| `useRecipeBrewClipboard` | Copy recipe → brew or brew → recipe, stripping server-managed fields    |
+| `useRecipeExport`        | Download recipe as BeerXML; generate BBCode / HTML forum tables         |
+| `useResourceCrud`        | Generic CRUD logic for all ingredient database pages                    |
+| `useSaveState`           | Track `idle / saving / saved / error` with auto-reset timer             |
+| `useTControlChart`       | Build ECharts series options for the TControl fermentation graph        |
+| `useTheme`               | Load, persist, and apply theme (light/dark/system, accent colour, font) |
 
 ## Server layer
 
@@ -243,29 +243,29 @@ Their handlers:
 All brewing math lives in [`server/utils/calculations/`](../server/utils/calculations) as pure,
 side-effect-free TypeScript functions.
 
-| Module | Contents |
-| ------ | -------- |
-| `gravity.ts` | OG/FG estimation, gravity point calculations |
-| `color.ts` | EBC/SRM conversions, Morey/Mosher/Daniels methods |
-| `ibu.ts` | IBU calculations (Tinseth, Rager, Garetz, Daniels, Mosher, Noonan) |
-| `abv.ts` | ABV/ABW, apparent/real attenuation, calorie estimation |
-| `water.ts` | Water ion chemistry, mash pH, sparge acid |
-| `carbonation.ts` | CO₂ volumes, priming sugar weight |
-| `yeast.ts` | Vitality, pitch rate, multi-step starter cell growth |
-| `temperature.ts` | Temperature conversions, mash rest calculations |
-| `refractometer.ts` | Wort correction for dry/fermented beer (Brix → SG) |
-| `efficiency.ts` | Mash and brewhouse efficiency |
-| `hops.ts` | Hop utilisation, alpha acid decay |
-| `dilution.ts` | Gravity / alcohol dilution |
-| `blending.ts` | Blend two beers (OG, colour, IBU) |
-| `kettle.ts` | Kettle volume estimations, boil-off |
-| `regression.ts` | Linear / polynomial curve fitting for analysis |
-| `conversions.ts` | SG ↔ Plato ↔ Brix conversions |
-| `scaling.ts` | Scale a recipe to a different batch size |
-| `style-match.ts` | Match recipe parameters against BJCP style ranges |
-| `neural.ts` | Neural network training, forward-pass prediction, weight serialisation |
-| `wizard.ts` | Hop / grain substitution helpers |
-| `index.ts` | Re-exports all functions |
+| Module             | Contents                                                               |
+| ------------------ | ---------------------------------------------------------------------- |
+| `gravity.ts`       | OG/FG estimation, gravity point calculations                           |
+| `color.ts`         | EBC/SRM conversions, Morey/Mosher/Daniels methods                      |
+| `ibu.ts`           | IBU calculations (Tinseth, Rager, Garetz, Daniels, Mosher, Noonan)     |
+| `abv.ts`           | ABV/ABW, apparent/real attenuation, calorie estimation                 |
+| `water.ts`         | Water ion chemistry, mash pH, sparge acid                              |
+| `carbonation.ts`   | CO₂ volumes, priming sugar weight                                      |
+| `yeast.ts`         | Vitality, pitch rate, multi-step starter cell growth                   |
+| `temperature.ts`   | Temperature conversions, mash rest calculations                        |
+| `refractometer.ts` | Wort correction for dry/fermented beer (Brix → SG)                     |
+| `efficiency.ts`    | Mash and brewhouse efficiency                                          |
+| `hops.ts`          | Hop utilisation, alpha acid decay                                      |
+| `dilution.ts`      | Gravity / alcohol dilution                                             |
+| `blending.ts`      | Blend two beers (OG, colour, IBU)                                      |
+| `kettle.ts`        | Kettle volume estimations, boil-off                                    |
+| `regression.ts`    | Linear / polynomial curve fitting for analysis                         |
+| `conversions.ts`   | SG ↔ Plato ↔ Brix conversions                                          |
+| `scaling.ts`       | Scale a recipe to a different batch size                               |
+| `style-match.ts`   | Match recipe parameters against BJCP style ranges                      |
+| `neural.ts`        | Neural network training, forward-pass prediction, weight serialisation |
+| `wizard.ts`        | Hop / grain substitution helpers                                       |
+| `index.ts`         | Re-exports all functions                                               |
 
 IBU utilisation tables (Rager, Garetz, Noonan) use data-driven step tables looked up by a shared
 `stepLookup()` helper rather than long `if/else` chains.
@@ -299,97 +299,97 @@ mode and `foreign_keys` enabled.
 
 ### Recipes
 
-| Method | Endpoint | Description |
-| ------ | -------- | ----------- |
-| GET | `/api/recipes` | List recipes (with stock state) |
-| POST | `/api/recipes` | Create recipe |
-| GET | `/api/recipes/:id` | Fetch recipe with all ingredients |
-| PATCH | `/api/recipes/:id` | Update recipe |
-| DELETE | `/api/recipes/:id` | Delete recipe |
-| POST | `/api/recipes/:id/calculate` | Recalculate OG/FG/IBU/colour/ABV/carbonation |
-| GET | `/api/recipes/:id/export` | Export recipe as BeerXML |
-| GET/PUT | `/api/recipes/:id/water-treatment` | Water treatment data |
-| POST | `/api/recipes/import` | Import from BeerXML |
+| Method  | Endpoint                           | Description                                  |
+| ------- | ---------------------------------- | -------------------------------------------- |
+| GET     | `/api/recipes`                     | List recipes (with stock state)              |
+| POST    | `/api/recipes`                     | Create recipe                                |
+| GET     | `/api/recipes/:id`                 | Fetch recipe with all ingredients            |
+| PATCH   | `/api/recipes/:id`                 | Update recipe                                |
+| DELETE  | `/api/recipes/:id`                 | Delete recipe                                |
+| POST    | `/api/recipes/:id/calculate`       | Recalculate OG/FG/IBU/colour/ABV/carbonation |
+| GET     | `/api/recipes/:id/export`          | Export recipe as BeerXML                     |
+| GET/PUT | `/api/recipes/:id/water-treatment` | Water treatment data                         |
+| POST    | `/api/recipes/import`              | Import from BeerXML                          |
 
 ### Brews
 
-| Method | Endpoint | Description |
-| ------ | -------- | ----------- |
-| GET | `/api/brews` | List brews |
-| POST | `/api/brews` | Create brew |
-| GET | `/api/brews/:id` | Fetch brew with measurements, checklist, divisions |
-| PATCH | `/api/brews/:id` | Update brew |
-| DELETE | `/api/brews/:id` | Delete brew |
-| GET | `/api/brews/:id/log.print` | Printable HTML brew log |
-| POST | `/api/brews/:id/boek-af` | Mark complete & deduct inventory |
-| POST | `/api/brews/:id/divide` | Split brew into containers |
-| POST | `/api/brews/:id/copy-to-recipe` | Clone brew as new recipe |
-| GET/POST | `/api/brews/:brewId/measurements` | Fetch / add measurements |
-| POST | `/api/brews/:brewId/import-tcontrol` | Import TControl CSV log |
-| GET | `/api/brews/:brewId/predict` | Neural network prediction |
+| Method   | Endpoint                             | Description                                        |
+| -------- | ------------------------------------ | -------------------------------------------------- |
+| GET      | `/api/brews`                         | List brews                                         |
+| POST     | `/api/brews`                         | Create brew                                        |
+| GET      | `/api/brews/:id`                     | Fetch brew with measurements, checklist, divisions |
+| PATCH    | `/api/brews/:id`                     | Update brew                                        |
+| DELETE   | `/api/brews/:id`                     | Delete brew                                        |
+| GET      | `/api/brews/:id/log.print`           | Printable HTML brew log                            |
+| POST     | `/api/brews/:id/boek-af`             | Mark complete & deduct inventory                   |
+| POST     | `/api/brews/:id/divide`              | Split brew into containers                         |
+| POST     | `/api/brews/:id/copy-to-recipe`      | Clone brew as new recipe                           |
+| GET/POST | `/api/brews/:brewId/measurements`    | Fetch / add measurements                           |
+| POST     | `/api/brews/:brewId/import-tcontrol` | Import TControl CSV log                            |
+| GET      | `/api/brews/:brewId/predict`         | Neural network prediction                          |
 
 ### Ingredient databases
 
-| Method | Endpoint | Description |
-| ------ | -------- | ----------- |
-| GET/POST | `/api/fermentables` | List / create |
-| GET/PATCH/DELETE | `/api/fermentables/:id` | Get / update / delete |
-| GET/POST | `/api/hops` | List / create |
-| GET/PATCH/DELETE | `/api/hops/:id` | Get / update / delete |
-| GET/POST | `/api/yeasts` | List / create |
-| GET/PATCH/DELETE | `/api/yeasts/:id` | Get / update / delete |
-| GET/POST | `/api/miscs` | List / create |
-| GET/PATCH/DELETE | `/api/miscs/:id` | Get / update / delete |
-| GET/POST | `/api/waters` | List / create |
-| GET/PATCH/DELETE | `/api/waters/:id` | Get / update / delete |
-| GET/POST | `/api/equipment` | List / create |
-| GET/PATCH/DELETE | `/api/equipment/:id` | Get / update / delete |
-| GET/POST | `/api/mashes` | List / create mash profiles |
-| GET/PATCH/DELETE | `/api/mashes/:id` | Get / update / delete |
-| GET | `/api/styles` | List beer styles |
-| GET | `/api/styles/:id` | Fetch beer style |
+| Method           | Endpoint                | Description                 |
+| ---------------- | ----------------------- | --------------------------- |
+| GET/POST         | `/api/fermentables`     | List / create               |
+| GET/PATCH/DELETE | `/api/fermentables/:id` | Get / update / delete       |
+| GET/POST         | `/api/hops`             | List / create               |
+| GET/PATCH/DELETE | `/api/hops/:id`         | Get / update / delete       |
+| GET/POST         | `/api/yeasts`           | List / create               |
+| GET/PATCH/DELETE | `/api/yeasts/:id`       | Get / update / delete       |
+| GET/POST         | `/api/miscs`            | List / create               |
+| GET/PATCH/DELETE | `/api/miscs/:id`        | Get / update / delete       |
+| GET/POST         | `/api/waters`           | List / create               |
+| GET/PATCH/DELETE | `/api/waters/:id`       | Get / update / delete       |
+| GET/POST         | `/api/equipment`        | List / create               |
+| GET/PATCH/DELETE | `/api/equipment/:id`    | Get / update / delete       |
+| GET/POST         | `/api/mashes`           | List / create mash profiles |
+| GET/PATCH/DELETE | `/api/mashes/:id`       | Get / update / delete       |
+| GET              | `/api/styles`           | List beer styles            |
+| GET              | `/api/styles/:id`       | Fetch beer style            |
 
 ### Calculation endpoints
 
-| Method | Endpoint | Description |
-| ------ | -------- | ----------- |
-| POST | `/api/calculations/sg-plato-brix` | SG / Plato / Brix conversion |
-| POST | `/api/calculations/infusion` | Infusion / decoction step |
-| POST | `/api/calculations/dilution` | Gravity dilution |
-| POST | `/api/calculations/blending` | Blend two beers |
-| POST | `/api/calculations/boil-test` | Boil-off calculation |
-| POST | `/api/calculations/carbonation` | CO₂ / priming |
-| POST | `/api/calculations/refractometer` | Brix → SG (with fermentation correction) |
-| POST | `/api/calculations/og-after-fermentation` | OG estimation from FG |
-| POST | `/api/calculations/yeast-starter` | Yeast starter cell growth |
-| POST | `/api/calculations/water-adjustment` | Water salt additions |
-| POST | `/api/calculations/sparge-acid` | Sparge water acid addition |
-| POST | `/api/calculations/style-match` | Recipe vs. BJCP style |
-| POST | `/api/calculations/kettle-volume` | Kettle volume |
-| POST | `/api/calculations/hop-aging` | Alpha acid degradation |
-| POST | `/api/calculations/hop-wizard` | Hop substitution |
-| POST | `/api/calculations/grist-wizard` | Grain substitution |
-| POST | `/api/calculations/hydrometer-correction` | Temperature-corrected gravity |
-| POST | `/api/calculations/mash-ph` | Mash pH |
+| Method | Endpoint                                  | Description                              |
+| ------ | ----------------------------------------- | ---------------------------------------- |
+| POST   | `/api/calculations/sg-plato-brix`         | SG / Plato / Brix conversion             |
+| POST   | `/api/calculations/infusion`              | Infusion / decoction step                |
+| POST   | `/api/calculations/dilution`              | Gravity dilution                         |
+| POST   | `/api/calculations/blending`              | Blend two beers                          |
+| POST   | `/api/calculations/boil-test`             | Boil-off calculation                     |
+| POST   | `/api/calculations/carbonation`           | CO₂ / priming                            |
+| POST   | `/api/calculations/refractometer`         | Brix → SG (with fermentation correction) |
+| POST   | `/api/calculations/og-after-fermentation` | OG estimation from FG                    |
+| POST   | `/api/calculations/yeast-starter`         | Yeast starter cell growth                |
+| POST   | `/api/calculations/water-adjustment`      | Water salt additions                     |
+| POST   | `/api/calculations/sparge-acid`           | Sparge water acid addition               |
+| POST   | `/api/calculations/style-match`           | Recipe vs. BJCP style                    |
+| POST   | `/api/calculations/kettle-volume`         | Kettle volume                            |
+| POST   | `/api/calculations/hop-aging`             | Alpha acid degradation                   |
+| POST   | `/api/calculations/hop-wizard`            | Hop substitution                         |
+| POST   | `/api/calculations/grist-wizard`          | Grain substitution                       |
+| POST   | `/api/calculations/hydrometer-correction` | Temperature-corrected gravity            |
+| POST   | `/api/calculations/mash-ph`               | Mash pH                                  |
 
 ### Misc
 
-| Method | Endpoint | Description |
-| ------ | -------- | ----------- |
-| GET | `/api/health` | Health check (used by Docker) |
-| GET/PUT | `/api/settings` | Application settings (key/value store) |
-| GET/POST | `/api/neural-networks` | List / create neural networks |
-| GET/PATCH/DELETE | `/api/neural-networks/:id` | Get / update / delete network |
-| POST | `/api/neural-networks/:id/train` | Train network on brew samples |
-| POST | `/api/neural-networks/:id/predict.post` | Run prediction |
-| GET | `/api/analysis/style-stats` | Style statistics across all recipes |
+| Method           | Endpoint                                | Description                            |
+| ---------------- | --------------------------------------- | -------------------------------------- |
+| GET              | `/api/health`                           | Health check (used by Docker)          |
+| GET/PUT          | `/api/settings`                         | Application settings (key/value store) |
+| GET/POST         | `/api/neural-networks`                  | List / create neural networks          |
+| GET/PATCH/DELETE | `/api/neural-networks/:id`              | Get / update / delete network          |
+| POST             | `/api/neural-networks/:id/train`        | Train network on brew samples          |
+| POST             | `/api/neural-networks/:id/predict.post` | Run prediction                         |
+| GET              | `/api/analysis/style-stats`             | Style statistics across all recipes    |
 
 ## Configuration
 
 Runtime configuration is defined in [`nuxt.config.ts`](../nuxt.config.ts) under `runtimeConfig`:
 
-| Setting | Env variable | Default | Description |
-| ------- | ------------ | ------- | ----------- |
+| Setting        | Env variable         | Default               | Description              |
+| -------------- | -------------------- | --------------------- | ------------------------ |
 | `databasePath` | `NUXT_DATABASE_PATH` | `./data/brewbuddy.db` | SQLite database location |
 
 The Docker image sets `NUXT_DATABASE_PATH=/data/brewbuddy.db` and mounts the `brewbuddy-data` volume
@@ -409,12 +409,12 @@ npm run test          # watch mode
 
 Test files:
 
-| Area | Files |
-| ---- | ----- |
+| Area         | Files                                                                                                                                                                                                                                   |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Calculations | `abv`, `blending`, `carbonation`, `color`, `conversions`, `dilution`, `gravity`, `hops`, `ibu`, `kettle`, `mash-ph`, `neural`, `refractometer`, `regression`, `scaling`, `style-match`, `water`, `water-suggestions`, `wizard`, `yeast` |
-| Composables | `useNeuralCsv`, others |
-| Recipe I/O | BeerXML import/export round-trip |
-| Server | Validation schema tests |
+| Composables  | `useNeuralCsv`, others                                                                                                                                                                                                                  |
+| Recipe I/O   | BeerXML import/export round-trip                                                                                                                                                                                                        |
+| Server       | Validation schema tests                                                                                                                                                                                                                 |
 
 ## Linting and formatting
 
@@ -432,11 +432,13 @@ npm run format        # format with Prettier
 Two GitHub Actions workflows in [`.github/workflows/`](../.github/workflows/):
 
 **`ci.yml`** — runs on every push / PR to `main` / `development`:
+
 1. Checkout + Node 26 setup with npm cache
 2. `npm ci`
 3. `npm run lint` → `npm run typecheck` → `npm run test:run` → `npm run build`
 
 **`release.yml`** — runs on `v*` tags or manual dispatch:
+
 1. Same verify steps as CI
 2. Build and push multi-arch Docker image (`linux/amd64`, `linux/arm64`) to GitHub Container
    Registry as `ghcr.io/joostvoskuil/brewbuddyng:<version>` and `:latest`
@@ -470,7 +472,6 @@ docker run -d \
   --restart unless-stopped \
   ghcr.io/joostvoskuil/brewbuddyng:latest
 ```
-
 
 ## Architecture overview
 

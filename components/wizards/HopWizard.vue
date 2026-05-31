@@ -12,15 +12,41 @@
       <div class="grid gap-4 py-4 md:grid-cols-2">
         <label class="space-y-1 text-sm font-medium">
           {{ $t('recipe.targetIbu') }}
-          <input v-model.number="targetIbu" type="number" step="1" min="0" class="w-full rounded border bg-background px-3 py-2 text-right" />
+          <input
+            v-model.number="targetIbu"
+            type="number"
+            step="1"
+            min="0"
+            class="w-full rounded border bg-background px-3 py-2 text-right"
+          />
         </label>
         <label class="space-y-1 text-sm font-medium">
           {{ $t('wizard.hop.alpha') }}
-          <input v-model.number="alpha" type="number" step="0.1" min="0" class="w-full rounded border bg-background px-3 py-2 text-right" />
+          <input
+            v-model.number="alpha"
+            type="number"
+            step="0.1"
+            min="0"
+            class="w-full rounded border bg-background px-3 py-2 text-right"
+          />
         </label>
-        <label v-for="cat in categories" :key="cat.key" class="space-y-1 text-sm font-medium md:col-span-2">
-          <span class="flex justify-between"><span>{{ $t(cat.label) }}</span><span>{{ proportions[cat.key] }}%</span></span>
-          <input v-model.number="proportions[cat.key]" type="range" min="0" max="100" step="5" class="w-full" />
+        <label
+          v-for="cat in categories"
+          :key="cat.key"
+          class="space-y-1 text-sm font-medium md:col-span-2"
+        >
+          <span class="flex justify-between"
+            ><span>{{ $t(cat.label) }}</span
+            ><span>{{ proportions[cat.key] }}%</span></span
+          >
+          <input
+            v-model.number="proportions[cat.key]"
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            class="w-full"
+          />
         </label>
       </div>
 
@@ -46,9 +72,19 @@
       </div>
 
       <div class="mt-4 flex justify-end gap-2">
-        <button type="button" class="rounded border px-3 py-2 text-sm" @click="$emit('close')">{{ $t('common.cancel') }}</button>
-        <button type="button" class="rounded border px-3 py-2 text-sm" @click="apply('append')">{{ $t('wizard.append') }}</button>
-        <button type="button" class="rounded bg-primary px-3 py-2 text-sm text-primary-foreground" @click="apply('replace')">{{ $t('wizard.replace') }}</button>
+        <button type="button" class="rounded border px-3 py-2 text-sm" @click="$emit('close')">
+          {{ $t('common.cancel') }}
+        </button>
+        <button type="button" class="rounded border px-3 py-2 text-sm" @click="apply('append')">
+          {{ $t('wizard.append') }}
+        </button>
+        <button
+          type="button"
+          class="rounded bg-primary px-3 py-2 text-sm text-primary-foreground"
+          @click="apply('replace')"
+        >
+          {{ $t('wizard.replace') }}
+        </button>
       </div>
     </div>
   </div>
@@ -58,11 +94,18 @@
 import { planHopWizard, type HopWizardCategory } from '~/server/utils/calculations/wizard'
 
 const props = defineProps<{ target?: number; batchSize: number; boilSize: number; og: number }>()
-const emit = defineEmits<{ close: []; apply: [mode: 'append' | 'replace', hops: ReturnType<typeof planHopWizard>] }>()
+const emit = defineEmits<{
+  close: []
+  apply: [mode: 'append' | 'replace', hops: ReturnType<typeof planHopWizard>]
+}>()
 
 const targetIbu = ref(props.target || 30)
 const alpha = ref(6)
-const proportions = reactive<Record<HopWizardCategory, number>>({ bittering: 60, flavour: 25, aroma: 15 })
+const proportions = reactive<Record<HopWizardCategory, number>>({
+  bittering: 60,
+  flavour: 25,
+  aroma: 15,
+})
 const categories = [
   { key: 'bittering' as const, label: 'wizard.hop.bittering' },
   { key: 'flavour' as const, label: 'wizard.hop.flavour' },

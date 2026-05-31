@@ -36,11 +36,7 @@ export default defineEventHandler(async (event) => {
     let boilTime = 0
     if (brew.recipeId) {
       const [steps, recipe] = await Promise.all([
-        db
-          .select()
-          .from(recipeMashSteps)
-          .where(eq(recipeMashSteps.recipeId, brew.recipeId))
-          .all(),
+        db.select().from(recipeMashSteps).where(eq(recipeMashSteps.recipeId, brew.recipeId)).all(),
         db.select().from(recipes).where(eq(recipes.id, brew.recipeId)).get(),
       ])
       mashSteps = steps.sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))

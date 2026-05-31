@@ -1,6 +1,8 @@
 <template>
   <div class="space-y-3">
-    <p v-if="!points.length" class="text-sm text-muted-foreground">{{ $t('analysis.properties.noData') }}</p>
+    <p v-if="!points.length" class="text-sm text-muted-foreground">
+      {{ $t('analysis.properties.noData') }}
+    </p>
     <VChart
       v-else
       :option="option"
@@ -90,7 +92,10 @@ const option = computed<EChartsOption>(() => {
     props.bins,
   )
   return {
-    title: { text: t('analysis.properties.histogramTitle', { property: axisLabel(props.xProperty) }), textStyle: { fontSize: 14 } },
+    title: {
+      text: t('analysis.properties.histogramTitle', { property: axisLabel(props.xProperty) }),
+      textStyle: { fontSize: 14 },
+    },
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
     grid: { left: 50, right: 20, top: 48, bottom: 60 },
     xAxis: {

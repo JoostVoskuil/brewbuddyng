@@ -24,9 +24,7 @@ export function useCsvExport() {
   /** Build a CSV string from rows and column definitions. */
   function buildCsv<T>(rows: T[], columns: CsvColumn<T>[]): string {
     const header = columns.map((c) => escapeCsvField(c.header)).join(',')
-    const body = rows.map((row) =>
-      columns.map((c) => escapeCsvField(c.value(row))).join(','),
-    )
+    const body = rows.map((row) => columns.map((c) => escapeCsvField(c.value(row))).join(','))
     return [header, ...body].join('\r\n')
   }
 

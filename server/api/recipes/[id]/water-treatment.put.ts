@@ -5,7 +5,8 @@ import { recipeWaterTreatmentUpsert } from '~/server/utils/validation'
 
 export default defineEventHandler(async (event) => {
   const id = Number(getRouterParam(event, 'id'))
-  if (!Number.isInteger(id) || id <= 0) throw createError({ statusCode: 400, message: 'Invalid id' })
+  if (!Number.isInteger(id) || id <= 0)
+    throw createError({ statusCode: 400, message: 'Invalid id' })
 
   const body = await readValidatedBody(event, (value) => recipeWaterTreatmentUpsert.parse(value))
   const db = useDB()

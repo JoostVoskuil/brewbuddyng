@@ -71,7 +71,9 @@
         </tbody>
       </table>
     </div>
-    <p class="mt-3 text-sm text-muted-foreground">{{ $t('common.total') }}: {{ filtered.length }}</p>
+    <p class="mt-3 text-sm text-muted-foreground">
+      {{ $t('common.total') }}: {{ filtered.length }}
+    </p>
   </div>
 </template>
 

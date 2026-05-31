@@ -40,7 +40,14 @@ describe('water suggestions', () => {
   })
 
   it('derives a hop-forward target profile for IPA-like styles', () => {
-    const profile = targetProfileForStyle({ name: 'American IPA', category: 'IPA', ibuMin: 40, ibuMax: 70, colorMin: 6, colorMax: 14 })
+    const profile = targetProfileForStyle({
+      name: 'American IPA',
+      category: 'IPA',
+      ibuMin: 40,
+      ibuMax: 70,
+      colorMin: 6,
+      colorMax: 14,
+    })
 
     expect(profile.sulfate).toBeGreaterThan(profile.chloride)
     expect(profile.calcium).toBeGreaterThanOrEqual(100)

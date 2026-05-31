@@ -79,7 +79,12 @@ interface ConvResult {
   wort: { sg: number; plato: number; brix: number }
   beer: { fg: number; plato: number; brix: number; abv: number; attenuation: number } | null
 }
-const form = ref({ value: 1.05, unit: 'sg' as 'sg' | 'plato' | 'brix', beerBrix: '', brixFactor: 1.03 })
+const form = ref({
+  value: 1.05,
+  unit: 'sg' as 'sg' | 'plato' | 'brix',
+  beerBrix: '',
+  brixFactor: 1.03,
+})
 const result = ref<ConvResult | null>(null)
 async function calculate() {
   result.value = await $fetch<ConvResult>('/api/calculations/sg-plato-brix', {

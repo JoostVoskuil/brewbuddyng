@@ -19,7 +19,8 @@ interface TreatmentRow {
 
 export default defineEventHandler(async (event) => {
   const id = Number(getRouterParam(event, 'id'))
-  if (!Number.isInteger(id) || id <= 0) throw createError({ statusCode: 400, message: 'Invalid id' })
+  if (!Number.isInteger(id) || id <= 0)
+    throw createError({ statusCode: 400, message: 'Invalid id' })
 
   const db = useDB()
   await ensureRecipeWaterTreatmentTable(db)
@@ -28,7 +29,9 @@ export default defineEventHandler(async (event) => {
   if (!recipe) throw createError({ statusCode: 404, message: 'Recipe not found' })
 
   const [row, defaultWater, grist, mashSteps] = await Promise.all([
-    db.get(sql`SELECT * FROM recipe_water_treatment WHERE recipe_id = ${id}`) as Promise<TreatmentRow | undefined>,
+    db.get(sql`SELECT * FROM recipe_water_treatment WHERE recipe_id = ${id}`) as Promise<
+      TreatmentRow | undefined
+    >,
     db.select().from(waters).where(eq(waters.isDefault, true)).get(),
     db.select().from(recipeFermentables).where(eq(recipeFermentables.recipeId, id)).all(),
     db.select().from(recipeMashSteps).where(eq(recipeMashSteps.recipeId, id)).all(),

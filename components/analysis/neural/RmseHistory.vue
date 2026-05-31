@@ -1,9 +1,11 @@
 <script setup lang="ts">
 const props = defineProps<{
-  history: Array<{ epoch: number, rmse: number }>
+  history: Array<{ epoch: number; rmse: number }>
 }>()
 
-const best = computed(() => props.history.reduce((min, point) => Math.min(min, point.rmse), Number.POSITIVE_INFINITY))
+const best = computed(() =>
+  props.history.reduce((min, point) => Math.min(min, point.rmse), Number.POSITIVE_INFINITY),
+)
 const current = computed(() => props.history.at(-1))
 </script>
 

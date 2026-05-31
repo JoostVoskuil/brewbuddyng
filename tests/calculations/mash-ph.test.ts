@@ -27,9 +27,16 @@ const paleAleMash: MashPhInput = {
 
 describe('BrouwHulp mash pH port', () => {
   it('uses the original malt buffer-capacity regressions by grain type and EBC', () => {
-    expect(maltBufferCapacityMeqKgPh({ amountKg: 1, colorEbc: 7, grainType: 'Base' })).toBeCloseTo(-34.094, 3)
-    expect(maltBufferCapacityMeqKgPh({ amountKg: 1, colorEbc: 120, grainType: 'Crystal' })).toBeCloseTo(-39.621, 3)
-    expect(maltBufferCapacityMeqKgPh({ amountKg: 1, colorEbc: 900, grainType: 'Roast' })).toBeCloseTo(-45.138, 3)
+    expect(maltBufferCapacityMeqKgPh({ amountKg: 1, colorEbc: 7, grainType: 'Base' })).toBeCloseTo(
+      -34.094,
+      3,
+    )
+    expect(
+      maltBufferCapacityMeqKgPh({ amountKg: 1, colorEbc: 120, grainType: 'Crystal' }),
+    ).toBeCloseTo(-39.621, 3)
+    expect(
+      maltBufferCapacityMeqKgPh({ amountKg: 1, colorEbc: 900, grainType: 'Roast' }),
+    ).toBeCloseTo(-45.138, 3)
   })
 
   it('predicts a deterministic mash pH from water alkalinity and grist distribution', () => {

@@ -42,7 +42,9 @@
             class="text-sm border rounded px-2 py-1 bg-background hover:bg-muted transition-colors"
             :title="themeLabel"
             @click="cycleTheme"
-          >{{ themeIcon }}</button>
+          >
+            {{ themeIcon }}
+          </button>
           <select
             :value="locale"
             class="text-sm border rounded px-2 py-1 bg-background"

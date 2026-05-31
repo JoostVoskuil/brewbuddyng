@@ -7,7 +7,8 @@ import { toNetworkResponse } from '~/server/utils/nn/neural-api'
 
 function parseId(event: Parameters<typeof getRouterParam>[0]): number {
   const id = Number(getRouterParam(event, 'id'))
-  if (!Number.isInteger(id) || id <= 0) throw createError({ statusCode: 400, message: 'Invalid id' })
+  if (!Number.isInteger(id) || id <= 0)
+    throw createError({ statusCode: 400, message: 'Invalid id' })
   return id
 }
 
@@ -30,8 +31,14 @@ export default defineEventHandler(async (event) => {
     .update(neuralNetworks)
     .set({
       ...(body.name ? { name: body.name } : {}),
-      inputParams: JSON.stringify(body.inputParamsList ?? Array.from({ length: network.inputSize }, (_, i) => `input${i + 1}`)),
-      outputParams: JSON.stringify(body.outputParamsList ?? Array.from({ length: network.outputSize }, (_, i) => `output${i + 1}`)),
+      inputParams: JSON.stringify(
+        body.inputParamsList ??
+          Array.from({ length: network.inputSize }, (_, i) => `input${i + 1}`),
+      ),
+      outputParams: JSON.stringify(
+        body.outputParamsList ??
+          Array.from({ length: network.outputSize }, (_, i) => `output${i + 1}`),
+      ),
       hiddenLayers: JSON.stringify(body.hiddenLayersList ?? network.hiddenLayers),
       weights: serializeNetwork(network),
       finalError: Number.isFinite(network.rmse) ? network.rmse : null,

@@ -219,7 +219,11 @@ function defaultSerialized(config: NeuralConfig, seed: number): SerializedNeural
   }
 }
 
-function forwardNormalized(layers: number[][][], input: number[], activation: ActivationName): number[][] {
+function forwardNormalized(
+  layers: number[][][],
+  input: number[],
+  activation: ActivationName,
+): number[][] {
   const activations = [input]
   for (const layer of layers) {
     const previous = activations[activations.length - 1]!
@@ -262,7 +266,9 @@ export function serializeNetwork(network: SerializedNeuralNetwork): string {
   return JSON.stringify(network)
 }
 
-export function deserializeNetwork(value: string | SerializedNeuralNetwork): SerializedNeuralNetwork {
+export function deserializeNetwork(
+  value: string | SerializedNeuralNetwork,
+): SerializedNeuralNetwork {
   if (typeof value !== 'string') return { ...value, layers: cloneLayers(value.layers) }
   const parsed = JSON.parse(value) as SerializedNeuralNetwork
   return { ...parsed, layers: cloneLayers(parsed.layers) }

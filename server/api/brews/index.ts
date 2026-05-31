@@ -112,8 +112,7 @@ export default defineEventHandler(async (event) => {
       ]
         .join(' ')
         .toLowerCase(),
-      stockState:
-        b.recipeId != null ? (stockByRecipe.get(b.recipeId) ?? 'unknown') : 'unknown',
+      stockState: b.recipeId != null ? (stockByRecipe.get(b.recipeId) ?? 'unknown') : 'unknown',
     }))
   }
 

@@ -36,7 +36,10 @@ export function isInventoryOnStock(row: InventoryRow): boolean {
   return row.alwaysOnStock || (row.inventory ?? 0) > (row.lowStockThreshold ?? 0) + STOCK_EPSILON
 }
 
-export function filterInventoryRows(rows: InventoryRow[], filters: InventoryFilters): InventoryRow[] {
+export function filterInventoryRows(
+  rows: InventoryRow[],
+  filters: InventoryFilters,
+): InventoryRow[] {
   const needle = filters.search.trim().toLowerCase()
   return rows.filter((row) => {
     if (filters.type && row.type !== filters.type) return false

@@ -160,7 +160,9 @@ export function useRecipeExport() {
     parts.push('</table>')
     if (recipe.miscs?.length) {
       parts.push('<table border="1" cellpadding="4" cellspacing="0">')
-      parts.push('<tr><th>Misc</th><th>Type</th><th>Amount</th><th>Time (min)</th><th>Use</th></tr>')
+      parts.push(
+        '<tr><th>Misc</th><th>Type</th><th>Amount</th><th>Time (min)</th><th>Use</th></tr>',
+      )
       for (const m of recipe.miscs) {
         parts.push(
           `<tr><td>${esc(m.name)}</td><td>${esc(m.type ?? '')}</td><td>${(m.amount ?? 0).toFixed(2)}</td><td>${m.time ?? 0}</td><td>${esc(m.use ?? '')}</td></tr>`,

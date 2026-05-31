@@ -32,7 +32,9 @@ export function buildCsvSamples(
   outputSize: number,
   trainingPercent = 80,
 ): NeuralCsvSample[] {
-  const trainingCount = Math.round(rows.length * Math.min(100, Math.max(0, trainingPercent)) / 100)
+  const trainingCount = Math.round(
+    (rows.length * Math.min(100, Math.max(0, trainingPercent))) / 100,
+  )
   return rows
     .filter((row) => row.length >= inputSize + outputSize)
     .map((row, index) => ({

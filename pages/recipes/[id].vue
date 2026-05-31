@@ -991,7 +991,11 @@ import {
 import { calculateOG, estimateFGSimple } from '~/server/utils/calculations/gravity'
 import { calculateABV } from '~/server/utils/calculations/abv'
 import { strikeTemp } from '~/server/utils/calculations/water'
-import type { HopWizardAddition, MaltWizardFermentable, WaterWizardResult } from '~/server/utils/calculations/wizard'
+import type {
+  HopWizardAddition,
+  MaltWizardFermentable,
+  WaterWizardResult,
+} from '~/server/utils/calculations/wizard'
 import { volumeScaleFactor, scaleAmount, ibuScaleFactor } from '~/server/utils/calculations/scaling'
 import type {
   RecipeWithIngredients,
@@ -1310,10 +1314,20 @@ const neuralFeatureVector = computed(() => {
   const fermentablePct = ingredientKg > 0 ? (gristKg / ingredientKg) * 100 : 0
   const hopPct = gristKg > 0 ? (hopsKg / gristKg) * 100 : 0
   return [
-    { key: 'og', label: 'OG', value: stats.value.og, aliases: ['originalgravity', 'begin sg', 'beginsg'] },
+    {
+      key: 'og',
+      label: 'OG',
+      value: stats.value.og,
+      aliases: ['originalgravity', 'begin sg', 'beginsg'],
+    },
     { key: 'ibu', label: 'IBU', value: stats.value.ibu, aliases: ['bitterness'] },
     { key: 'ebc', label: 'EBC', value: stats.value.color, aliases: ['color', 'colour', 'srm'] },
-    { key: 'fermentablePercent', label: 'Fermentable %', value: fermentablePct, aliases: ['fermentablepct', 'gristpercent', 'moutpercent'] },
+    {
+      key: 'fermentablePercent',
+      label: 'Fermentable %',
+      value: fermentablePct,
+      aliases: ['fermentablepct', 'gristpercent', 'moutpercent'],
+    },
     { key: 'hopPercent', label: 'Hop %', value: hopPct, aliases: ['hoppct', 'hoprate'] },
   ]
 })
@@ -1834,7 +1848,8 @@ function installInlineSteppers() {
     ] as const) {
       button.type = 'button'
       button.textContent = label
-      button.className = 'px-2 text-sm font-semibold hover:bg-muted focus:outline-none focus:ring-1 focus:ring-ring'
+      button.className =
+        'px-2 text-sm font-semibold hover:bg-muted focus:outline-none focus:ring-1 focus:ring-ring'
       button.addEventListener('click', () => changeNumericInput(input, direction))
     }
     wrapper.insertBefore(minus, input)

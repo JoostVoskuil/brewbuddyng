@@ -26,11 +26,52 @@
               <div class="text-xs text-muted-foreground">{{ group.styles.join(', ') || '—' }}</div>
             </td>
             <td class="p-3 text-right tabular-nums">{{ group.items.length }}</td>
-            <td class="p-3 min-w-40"><StyleRangeBar label="OG" :min="group.range.ogMin" :max="group.range.ogMax" :value="group.avg.og" :values="group.values.og" /></td>
-            <td class="p-3 min-w-40"><StyleRangeBar label="FG" :min="group.range.fgMin" :max="group.range.fgMax" :value="group.avg.fg" :values="group.values.fg" /></td>
-            <td class="p-3 min-w-40"><StyleRangeBar label="ABV" :min="group.range.abvMin" :max="group.range.abvMax" :value="group.avg.abv" :values="group.values.abv" unit="%" /></td>
-            <td class="p-3 min-w-40"><StyleRangeBar label="IBU" :min="group.range.ibuMin" :max="group.range.ibuMax" :value="group.avg.ibu" :values="group.values.ibu" /></td>
-            <td class="p-3 min-w-40"><StyleRangeBar label="EBC" :min="group.range.colorMin" :max="group.range.colorMax" :value="group.avg.color" :values="group.values.color" /></td>
+            <td class="p-3 min-w-40">
+              <StyleRangeBar
+                label="OG"
+                :min="group.range.ogMin"
+                :max="group.range.ogMax"
+                :value="group.avg.og"
+                :values="group.values.og"
+              />
+            </td>
+            <td class="p-3 min-w-40">
+              <StyleRangeBar
+                label="FG"
+                :min="group.range.fgMin"
+                :max="group.range.fgMax"
+                :value="group.avg.fg"
+                :values="group.values.fg"
+              />
+            </td>
+            <td class="p-3 min-w-40">
+              <StyleRangeBar
+                label="ABV"
+                :min="group.range.abvMin"
+                :max="group.range.abvMax"
+                :value="group.avg.abv"
+                :values="group.values.abv"
+                unit="%"
+              />
+            </td>
+            <td class="p-3 min-w-40">
+              <StyleRangeBar
+                label="IBU"
+                :min="group.range.ibuMin"
+                :max="group.range.ibuMax"
+                :value="group.avg.ibu"
+                :values="group.values.ibu"
+              />
+            </td>
+            <td class="p-3 min-w-40">
+              <StyleRangeBar
+                label="EBC"
+                :min="group.range.colorMin"
+                :max="group.range.colorMax"
+                :value="group.avg.color"
+                :values="group.values.color"
+              />
+            </td>
           </tr>
           <tr v-if="expanded[group.key]" class="border-t bg-muted/20">
             <td></td>
@@ -44,13 +85,23 @@
                 >
                   <div class="font-medium">{{ item.name }}</div>
                   <div class="text-xs text-muted-foreground">
-                    {{ item.code || '—' }} · {{ item.styleName || '—' }} ·
-                    OG {{ format(item.og, 3) }} · IBU {{ format(item.ibu, 0) }}
+                    {{ item.code || '—' }} · {{ item.styleName || '—' }} · OG
+                    {{ format(item.og, 3) }} · IBU {{ format(item.ibu, 0) }}
                   </div>
-                 <div class="mt-3 grid gap-2">
-                   <StyleRangeBar label="OG" :min="itemStyle(item)?.ogMin" :max="itemStyle(item)?.ogMax" :value="item.og" />
-                   <StyleRangeBar label="IBU" :min="itemStyle(item)?.ibuMin" :max="itemStyle(item)?.ibuMax" :value="item.ibu" />
-                 </div>
+                  <div class="mt-3 grid gap-2">
+                    <StyleRangeBar
+                      label="OG"
+                      :min="itemStyle(item)?.ogMin"
+                      :max="itemStyle(item)?.ogMax"
+                      :value="item.og"
+                    />
+                    <StyleRangeBar
+                      label="IBU"
+                      :min="itemStyle(item)?.ibuMin"
+                      :max="itemStyle(item)?.ibuMax"
+                      :value="item.ibu"
+                    />
+                  </div>
                 </NuxtLink>
               </div>
             </td>
@@ -104,7 +155,9 @@ const groups = computed(() => {
 
   return [...map.entries()]
     .map(([label, items]) => {
-      const styles = [...new Set(items.map((item) => item.styleName).filter(Boolean) as string[])].sort()
+      const styles = [
+        ...new Set(items.map((item) => item.styleName).filter(Boolean) as string[]),
+      ].sort()
       const styleRows = items
         .map((item) => (item.styleId == null ? undefined : styleById.value[item.styleId]))
         .filter(Boolean) as BeerStyle[]

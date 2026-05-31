@@ -23,7 +23,12 @@ export default defineEventHandler(async (event) => {
 
       if (shouldBeDefault) {
         tx.update(waters).set({ isDefault: false }).where(ne(waters.id, row.id)).run()
-        return tx.update(waters).set({ isDefault: true }).where(eq(waters.id, row.id)).returning().get()
+        return tx
+          .update(waters)
+          .set({ isDefault: true })
+          .where(eq(waters.id, row.id))
+          .returning()
+          .get()
       }
 
       return row

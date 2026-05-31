@@ -53,7 +53,14 @@ describe('wizard calculations', () => {
       sourceB: { calcium: 0, magnesium: 0, sodium: 0, chloride: 0, sulfate: 0, bicarbonate: 0 },
       sourceAPercent: 50,
       volumeL: 30,
-      target: { calcium: 80, magnesium: 10, sodium: 25, chloride: 90, sulfate: 140, bicarbonate: 100 },
+      target: {
+        calcium: 80,
+        magnesium: 10,
+        sodium: 25,
+        chloride: 90,
+        sulfate: 140,
+        bicarbonate: 100,
+      },
     })
     expect(result.blended.calcium).toBe(10)
     expect(Object.values(result.additions).every((value) => value >= 0)).toBe(true)

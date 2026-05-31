@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { neuralNetworkCreate, neuralNetworkPredictRequest, neuralNetworkSamplesAdd } from '../../server/utils/validation'
+import {
+  neuralNetworkCreate,
+  neuralNetworkPredictRequest,
+  neuralNetworkSamplesAdd,
+} from '../../server/utils/validation'
 import {
   buildStoredNetwork,
   predictStoredNetwork,
@@ -49,7 +53,9 @@ describe('neural network API helpers and validation', () => {
         hiddenLayers: [2],
       }).name,
     ).toBe('attenuation')
-    expect(neuralNetworkSamplesAdd.parse({ samples: [{ inputs: [1, 2], outputs: [3] }] }).samples).toHaveLength(1)
+    expect(
+      neuralNetworkSamplesAdd.parse({ samples: [{ inputs: [1, 2], outputs: [3] }] }).samples,
+    ).toHaveLength(1)
     expect(neuralNetworkPredictRequest.parse({ inputs: [1, 2] }).inputs).toEqual([1, 2])
   })
 
@@ -73,7 +79,10 @@ describe('neural network API helpers and validation', () => {
       ],
       { seed: 13, maxEpochs: 20000, targetRmse: 0.05, learningRate: 0.9, momentum: 0.2 },
     )
-    const trainedRow = row({ weights: serializeNetwork(training.network), finalError: training.rmse })
+    const trainedRow = row({
+      weights: serializeNetwork(training.network),
+      finalError: training.rmse,
+    })
 
     expect(buildStoredNetwork(trainedRow).layers).toHaveLength(2)
     expect(predictStoredNetwork(trainedRow, [0, 1])[0]).toBeGreaterThan(0.7)

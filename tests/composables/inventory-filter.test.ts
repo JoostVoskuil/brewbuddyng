@@ -34,14 +34,38 @@ describe('inventory filtering', () => {
   })
 
   it('filters free text across name, supplier/origin, type and notes', () => {
-    const rows = [row({ name: 'Saaz', supplierOrigin: 'CZ', type: 'Aroma' }), row({ name: 'US-05' })]
-    expect(filterInventoryRows(rows, { search: 'cz', type: '', onStockOnly: false, lowStockOnly: false })).toHaveLength(1)
-    expect(filterInventoryRows(rows, { search: 'aroma', type: '', onStockOnly: false, lowStockOnly: false })[0]?.name).toBe('Saaz')
+    const rows = [
+      row({ name: 'Saaz', supplierOrigin: 'CZ', type: 'Aroma' }),
+      row({ name: 'US-05' }),
+    ]
+    expect(
+      filterInventoryRows(rows, {
+        search: 'cz',
+        type: '',
+        onStockOnly: false,
+        lowStockOnly: false,
+      }),
+    ).toHaveLength(1)
+    expect(
+      filterInventoryRows(rows, {
+        search: 'aroma',
+        type: '',
+        onStockOnly: false,
+        lowStockOnly: false,
+      })[0]?.name,
+    ).toBe('Saaz')
   })
 
   it('filters low-stock and type selections together', () => {
     const rows = [row({ type: 'Grain', inventory: 0 }), row({ type: 'Sugar', inventory: 0 })]
-    expect(filterInventoryRows(rows, { search: '', type: 'Sugar', onStockOnly: false, lowStockOnly: true })).toEqual([rows[1]])
+    expect(
+      filterInventoryRows(rows, {
+        search: '',
+        type: 'Sugar',
+        onStockOnly: false,
+        lowStockOnly: true,
+      }),
+    ).toEqual([rows[1]])
   })
 
   it('builds CSV rows without leaking raw payload data', () => {

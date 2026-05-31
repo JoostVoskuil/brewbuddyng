@@ -49,24 +49,65 @@ function onImport(event: Event) {
     <div class="flex items-center justify-between gap-3">
       <h2 class="text-lg font-semibold">{{ t('analysis.neural.networks') }}</h2>
       <div class="flex gap-2">
-        <input ref="fileInput" type="file" accept="application/json,.json" class="hidden" @change="onImport" />
-        <button class="btn" type="button" @click="fileInput?.click()">{{ t('analysis.neural.importWeights') }}</button>
+        <input
+          ref="fileInput"
+          type="file"
+          accept="application/json,.json"
+          class="hidden"
+          @change="onImport"
+        />
+        <button class="btn" type="button" @click="fileInput?.click()">
+          {{ t('analysis.neural.importWeights') }}
+        </button>
       </div>
     </div>
-    <p v-if="!props.networks.length" class="text-sm text-muted-foreground">{{ t('analysis.neural.noNetworks') }}</p>
-    <div v-for="network in props.networks" :key="network.id" class="rounded border p-3" :class="network.id === props.selectedId ? 'border-primary bg-primary/5' : ''">
+    <p v-if="!props.networks.length" class="text-sm text-muted-foreground">
+      {{ t('analysis.neural.noNetworks') }}
+    </p>
+    <div
+      v-for="network in props.networks"
+      :key="network.id"
+      class="rounded border p-3"
+      :class="network.id === props.selectedId ? 'border-primary bg-primary/5' : ''"
+    >
       <div class="flex flex-wrap items-center gap-2">
-        <button type="button" class="font-medium hover:underline" @click="emit('select', network.id)">{{ network.name }}</button>
-        <span class="text-xs text-muted-foreground">{{ network.inputSize }}→{{ network.hiddenLayersList.join('-') }}→{{ network.outputSize }}</span>
-        <span class="text-xs text-muted-foreground">{{ t('analysis.neural.samples') }} {{ network.samplesCount ?? 0 }}</span>
-        <span class="text-xs text-muted-foreground">RMSE {{ network.finalError?.toFixed(5) ?? '—' }}</span>
+        <button
+          type="button"
+          class="font-medium hover:underline"
+          @click="emit('select', network.id)"
+        >
+          {{ network.name }}
+        </button>
+        <span class="text-xs text-muted-foreground"
+          >{{ network.inputSize }}→{{ network.hiddenLayersList.join('-') }}→{{
+            network.outputSize
+          }}</span
+        >
+        <span class="text-xs text-muted-foreground"
+          >{{ t('analysis.neural.samples') }} {{ network.samplesCount ?? 0 }}</span
+        >
+        <span class="text-xs text-muted-foreground"
+          >RMSE {{ network.finalError?.toFixed(5) ?? '—' }}</span
+        >
       </div>
       <div class="mt-2 flex flex-wrap gap-2">
         <input v-model="names[network.id]" class="field max-w-60" />
-        <button class="btn" :disabled="props.loading" @click="emit('rename', network.id, names[network.id] || network.name)">{{ t('analysis.neural.rename') }}</button>
-        <button class="btn" :disabled="props.loading" @click="emit('duplicate', network.id)">{{ t('analysis.neural.duplicate') }}</button>
-        <button class="btn" :disabled="props.loading" @click="emit('export', network.id)">{{ t('analysis.neural.exportWeights') }}</button>
-        <button class="btn-danger" :disabled="props.loading" @click="emit('delete', network.id)">{{ t('analysis.neural.delete') }}</button>
+        <button
+          class="btn"
+          :disabled="props.loading"
+          @click="emit('rename', network.id, names[network.id] || network.name)"
+        >
+          {{ t('analysis.neural.rename') }}
+        </button>
+        <button class="btn" :disabled="props.loading" @click="emit('duplicate', network.id)">
+          {{ t('analysis.neural.duplicate') }}
+        </button>
+        <button class="btn" :disabled="props.loading" @click="emit('export', network.id)">
+          {{ t('analysis.neural.exportWeights') }}
+        </button>
+        <button class="btn-danger" :disabled="props.loading" @click="emit('delete', network.id)">
+          {{ t('analysis.neural.delete') }}
+        </button>
       </div>
     </div>
   </section>

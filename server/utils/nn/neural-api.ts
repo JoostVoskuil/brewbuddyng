@@ -58,7 +58,10 @@ export function buildStoredNetwork(
   const inputSize = parseJsonArray<string>(row.inputParams, []).length
   const outputSize = parseJsonArray<string>(row.outputParams, []).length
   const hiddenLayers = parseJsonArray<number>(row.hiddenLayers, [8])
-  return createNeuralNetwork({ inputSize, outputSize, hiddenLayers, activation: fallbackActivation }, seed)
+  return createNeuralNetwork(
+    { inputSize, outputSize, hiddenLayers, activation: fallbackActivation },
+    seed,
+  )
 }
 
 export function sampleRowToTrainingSample(row: NeuralNetworkSampleRow): TrainingSample {

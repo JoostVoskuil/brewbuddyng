@@ -1,4 +1,10 @@
-import { calculateHopAmount, calculateTotalIBU, type HopAddition, type HopForm, type HopUse } from './ibu'
+import {
+  calculateHopAmount,
+  calculateTotalIBU,
+  type HopAddition,
+  type HopForm,
+  type HopUse,
+} from './ibu'
 import { calculateOG } from './gravity'
 import { calculateAdditions, type WaterAdditions, type WaterProfile } from './water'
 
@@ -26,18 +32,22 @@ export interface HopWizardAddition {
   ibu: number
 }
 
-const HOP_CATEGORY_TIMES: Record<HopWizardCategory, { time: number; use: HopUse; label: string }> = {
-  bittering: { time: 60, use: 'boil', label: 'Bittering hop' },
-  flavour: { time: 20, use: 'boil', label: 'Flavour hop' },
-  aroma: { time: 5, use: 'aroma', label: 'Aroma hop' },
-}
+const HOP_CATEGORY_TIMES: Record<HopWizardCategory, { time: number; use: HopUse; label: string }> =
+  {
+    bittering: { time: 60, use: 'boil', label: 'Bittering hop' },
+    flavour: { time: 20, use: 'boil', label: 'Flavour hop' },
+    aroma: { time: 5, use: 'aroma', label: 'Aroma hop' },
+  }
 
 function normaliseProportions<T extends string>(proportions: Record<T, number>): Record<T, number> {
   const values = Object.values(proportions) as number[]
   const total = values.reduce((sum, value) => sum + Math.max(0, Number(value) || 0), 0)
   const keys = Object.keys(proportions) as T[]
-  if (total <= 0) return Object.fromEntries(keys.map((key) => [key, 1 / keys.length])) as Record<T, number>
-  return Object.fromEntries(keys.map((key) => [key, Math.max(0, proportions[key]) / total])) as Record<T, number>
+  if (total <= 0)
+    return Object.fromEntries(keys.map((key) => [key, 1 / keys.length])) as Record<T, number>
+  return Object.fromEntries(
+    keys.map((key) => [key, Math.max(0, proportions[key]) / total]),
+  ) as Record<T, number>
 }
 
 function titleCase(value: string): string {
@@ -57,7 +67,13 @@ export function planHopWizard(input: HopWizardInput): HopWizardAddition[] {
       const target = Math.max(0, input.targetIbu || 0) * shares[category]
       const band = HOP_CATEGORY_TIMES[category]
       const amount = calculateHopAmount(target, input.alpha || 5, band.time, band.use, form, params)
-      const hop: HopAddition = { amount, alpha: input.alpha || 5, time: band.time, use: band.use, form }
+      const hop: HopAddition = {
+        amount,
+        alpha: input.alpha || 5,
+        time: band.time,
+        use: band.use,
+        form,
+      }
       return {
         category,
         name: band.label,
@@ -127,10 +143,12 @@ export function planMaltWizard(input: MaltWizardInput): MaltWizardFermentable[] 
 
   let low = 0
   let high = Math.max(1, (targetOg - 1) * input.batchSize * 40)
-  while (calculateOG(fermentablesFor(high), input.batchSize, input.efficiency || 75) < targetOg) high *= 2
+  while (calculateOG(fermentablesFor(high), input.batchSize, input.efficiency || 75) < targetOg)
+    high *= 2
   for (let i = 0; i < 32; i += 1) {
     const mid = (low + high) / 2
-    if (calculateOG(fermentablesFor(mid), input.batchSize, input.efficiency || 75) < targetOg) low = mid
+    if (calculateOG(fermentablesFor(mid), input.batchSize, input.efficiency || 75) < targetOg)
+      low = mid
     else high = mid
   }
 
@@ -164,7 +182,11 @@ export interface WaterWizardResult {
   deltas: WaterProfile
 }
 
-export function blendWaterProfiles(a: WaterProfile, b: WaterProfile, aPercent: number): WaterProfile {
+export function blendWaterProfiles(
+  a: WaterProfile,
+  b: WaterProfile,
+  aPercent: number,
+): WaterProfile {
   const shareA = Math.min(100, Math.max(0, aPercent || 0)) / 100
   const shareB = 1 - shareA
   return {
@@ -202,16 +224,20 @@ export function planWaterWizard(input: WaterWizardInput): WaterWizardResult {
   const missingHco3 = Math.max(0, input.target.bicarbonate - blended.bicarbonate)
 
   additions.mgso4 = (missingMg * volumeL) / (0.099 * 1000)
-  additions.caso4 = Math.max(0, (missingSo4 - (additions.mgso4 * 0.389 * 1000) / volumeL) * volumeL) / (0.558 * 1000)
+  additions.caso4 =
+    Math.max(0, (missingSo4 - (additions.mgso4 * 0.389 * 1000) / volumeL) * volumeL) /
+    (0.558 * 1000)
   additions.cacl2 = Math.max(0, missingCl * volumeL) / (0.483 * 1000)
-  const calciumAfter = blended.calcium + ((additions.caso4 * 0.233 + additions.cacl2 * 0.272) * 1000) / volumeL
+  const calciumAfter =
+    blended.calcium + ((additions.caso4 * 0.233 + additions.cacl2 * 0.272) * 1000) / volumeL
   if (calciumAfter < input.target.calcium && missingCa > 0) {
     additions.cacl2 += ((input.target.calcium - calciumAfter) * volumeL) / (0.272 * 1000)
   }
   additions.nacl = (missingNa * volumeL) / (0.393 * 1000)
   additions.nahco3 = (missingHco3 * volumeL) / (0.726 * 1000)
 
-  for (const key of Object.keys(additions) as (keyof WaterAdditions)[]) additions[key] = Math.round(additions[key] * 100) / 100
+  for (const key of Object.keys(additions) as (keyof WaterAdditions)[])
+    additions[key] = Math.round(additions[key] * 100) / 100
   const finalProfile = calculateAdditions(blended, additions, volumeL)
   const deltas = {
     calcium: input.target.calcium - finalProfile.calcium,
@@ -220,7 +246,10 @@ export function planWaterWizard(input: WaterWizardInput): WaterWizardResult {
     chloride: input.target.chloride - finalProfile.chloride,
     sulfate: input.target.sulfate - finalProfile.sulfate,
     bicarbonate: input.target.bicarbonate - finalProfile.bicarbonate,
-    ph: input.target.ph != null && finalProfile.ph != null ? input.target.ph - finalProfile.ph : undefined,
+    ph:
+      input.target.ph != null && finalProfile.ph != null
+        ? input.target.ph - finalProfile.ph
+        : undefined,
   }
   return { blended, additions, finalProfile, deltas }
 }

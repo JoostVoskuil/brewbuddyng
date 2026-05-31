@@ -3,34 +3,60 @@
     <div class="mb-6 flex items-center justify-between">
       <h1 class="text-2xl font-bold">{{ $t('brew.title') }}</h1>
       <div class="flex items-center gap-2">
-        <button class="rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted" @click="exportCsvFile">
+        <button
+          class="rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted"
+          @click="exportCsvFile"
+        >
           {{ $t('common.exportCsv') }}
         </button>
-        <NuxtLink to="/brews/new" class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
+        <NuxtLink
+          to="/brews/new"
+          class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+        >
           {{ $t('brew.new') }}
         </NuxtLink>
       </div>
     </div>
 
     <div class="mb-4 flex flex-wrap items-center gap-3">
-      <div class="flex rounded-md border" role="tablist" :aria-label="$t('styleAnalysis.tabs.label')">
+      <div
+        class="flex rounded-md border"
+        role="tablist"
+        :aria-label="$t('styleAnalysis.tabs.label')"
+      >
         <button
           v-for="tab in viewTabs"
           :key="tab.value"
           type="button"
-          :class="['px-3 py-2 text-sm first:rounded-l-md last:rounded-r-md', activeTab === tab.value ? 'bg-primary text-primary-foreground' : 'hover:bg-muted']"
+          :class="[
+            'px-3 py-2 text-sm first:rounded-l-md last:rounded-r-md',
+            activeTab === tab.value ? 'bg-primary text-primary-foreground' : 'hover:bg-muted',
+          ]"
           @click="activeTab = tab.value"
         >
           {{ $t(tab.label) }}
         </button>
       </div>
-      <input ref="filterInput" v-model="search" :placeholder="$t('brews.filter.placeholder')" class="w-full max-w-sm rounded-md border bg-background px-3 py-2" />
-      <div v-if="activeTab === 'list'" class="flex overflow-hidden rounded-md border" role="group" :aria-label="$t('brew.groupBy.label')">
+      <input
+        ref="filterInput"
+        v-model="search"
+        :placeholder="$t('brews.filter.placeholder')"
+        class="w-full max-w-sm rounded-md border bg-background px-3 py-2"
+      />
+      <div
+        v-if="activeTab === 'list'"
+        class="flex overflow-hidden rounded-md border"
+        role="group"
+        :aria-label="$t('brew.groupBy.label')"
+      >
         <button
           v-for="option in groupByOptions"
           :key="option.value"
           type="button"
-          :class="['border-l px-3 py-2 text-sm first:border-l-0', groupBy === option.value ? 'bg-primary text-primary-foreground' : 'hover:bg-muted']"
+          :class="[
+            'border-l px-3 py-2 text-sm first:border-l-0',
+            groupBy === option.value ? 'bg-primary text-primary-foreground' : 'hover:bg-muted',
+          ]"
           @click="groupBy = option.value"
         >
           {{ $t(option.label) }}
@@ -49,7 +75,12 @@
       <span class="text-xs text-muted-foreground">{{ $t('brews.filter.shortcut') }}</span>
     </div>
 
-    <RecipeStyleAnalysis v-if="activeTab === 'style'" :items="styleAnalysisItems" :styles="styles" item-path="/brews" />
+    <RecipeStyleAnalysis
+      v-if="activeTab === 'style'"
+      :items="styleAnalysisItems"
+      :styles="styles"
+      item-path="/brews"
+    />
 
     <div v-else class="overflow-hidden rounded-lg border">
       <table class="w-full text-sm">
@@ -80,21 +111,50 @@
             @pointermove="cancelLongPress"
           >
             <td class="p-3"><StockDot :state="brew.stockState" /></td>
-            <td class="p-3 tabular-nums text-muted-foreground"><HighlightedText :parts="highlightParts(brew.code || '—')" /></td>
+            <td class="p-3 tabular-nums text-muted-foreground">
+              <HighlightedText :parts="highlightParts(brew.code || '—')" />
+            </td>
             <td class="p-3 font-medium"><HighlightedText :parts="highlightParts(brew.name)" /></td>
-            <td class="p-3"><HighlightedText :parts="highlightParts(styleNameForBrew(brew) || '—')" /></td>
+            <td class="p-3">
+              <HighlightedText :parts="highlightParts(styleNameForBrew(brew) || '—')" />
+            </td>
             <td class="p-3">{{ brew.brewDate || '—' }}</td>
             <td class="p-3"><HighlightedText :parts="highlightParts(brew.status || '—')" /></td>
             <td class="p-3"><HighlightedText :parts="highlightParts(brew.brewer || '—')" /></td>
             <td class="p-3 text-right">{{ brew.ogActual?.toFixed(3) || '—' }}</td>
             <td class="p-3 text-right">{{ brew.fgActual?.toFixed(3) || '—' }}</td>
-            <td class="p-3 text-right"><button class="text-primary hover:underline" @click.stop="openBrewMenu(brew, $event)">{{ $t('common.actions') }}</button></td>
+            <td class="p-3 text-right">
+              <button class="text-primary hover:underline" @click.stop="openBrewMenu(brew, $event)">
+                {{ $t('common.actions') }}
+              </button>
+            </td>
           </tr>
-          <tr v-if="filtered.length === 0"><td colspan="10" class="p-6 text-center text-muted-foreground">{{ $t('common.noResults') }}</td></tr>
+          <tr v-if="filtered.length === 0">
+            <td colspan="10" class="p-6 text-center text-muted-foreground">
+              {{ $t('common.noResults') }}
+            </td>
+          </tr>
         </tbody>
-        <tbody v-else-if="filtered.length === 0"><tr><td colspan="10" class="p-6 text-center text-muted-foreground">{{ $t('common.noResults') }}</td></tr></tbody>
-        <TreeList v-else :items="filtered" :group-by="brewGroupPath" key-field="id" storage-key="brews:tree:expanded" :colspan="10" :force-expand="!!debouncedSearch">
-          <template #header="{ label, count }"><span><HighlightedText :parts="highlightParts(label)" /></span><span class="text-sm text-muted-foreground">({{ count }})</span></template>
+        <tbody v-else-if="filtered.length === 0">
+          <tr>
+            <td colspan="10" class="p-6 text-center text-muted-foreground">
+              {{ $t('common.noResults') }}
+            </td>
+          </tr>
+        </tbody>
+        <TreeList
+          v-else
+          :items="filtered"
+          :group-by="brewGroupPath"
+          key-field="id"
+          storage-key="brews:tree:expanded"
+          :colspan="10"
+          :force-expand="!!debouncedSearch"
+        >
+          <template #header="{ label, count }"
+            ><span><HighlightedText :parts="highlightParts(label)" /></span
+            ><span class="text-sm text-muted-foreground">({{ count }})</span></template
+          >
           <template #row="{ item: brew }">
             <tr
               class="cursor-pointer border-t hover:bg-muted/50"
@@ -106,22 +166,41 @@
               @pointermove="cancelLongPress"
             >
               <td class="p-3"><StockDot :state="brew.stockState" /></td>
-              <td class="p-3 tabular-nums text-muted-foreground"><HighlightedText :parts="highlightParts(brew.code || '—')" /></td>
-              <td class="p-3 font-medium"><HighlightedText :parts="highlightParts(brew.name)" /></td>
-              <td class="p-3"><HighlightedText :parts="highlightParts(styleNameForBrew(brew) || '—')" /></td>
+              <td class="p-3 tabular-nums text-muted-foreground">
+                <HighlightedText :parts="highlightParts(brew.code || '—')" />
+              </td>
+              <td class="p-3 font-medium">
+                <HighlightedText :parts="highlightParts(brew.name)" />
+              </td>
+              <td class="p-3">
+                <HighlightedText :parts="highlightParts(styleNameForBrew(brew) || '—')" />
+              </td>
               <td class="p-3">{{ brew.brewDate || '—' }}</td>
               <td class="p-3"><HighlightedText :parts="highlightParts(brew.status || '—')" /></td>
               <td class="p-3"><HighlightedText :parts="highlightParts(brew.brewer || '—')" /></td>
               <td class="p-3 text-right">{{ brew.ogActual?.toFixed(3) || '—' }}</td>
               <td class="p-3 text-right">{{ brew.fgActual?.toFixed(3) || '—' }}</td>
-              <td class="p-3 text-right"><button class="text-primary hover:underline" @click.stop="openBrewMenu(brew, $event)">{{ $t('common.actions') }}</button></td>
+              <td class="p-3 text-right">
+                <button
+                  class="text-primary hover:underline"
+                  @click.stop="openBrewMenu(brew, $event)"
+                >
+                  {{ $t('common.actions') }}
+                </button>
+              </td>
             </tr>
           </template>
         </TreeList>
       </table>
     </div>
 
-    <ContextMenu v-model="menu.open" :x="menu.x" :y="menu.y" :items="brewMenuItems" @select="handleBrewAction" />
+    <ContextMenu
+      v-model="menu.open"
+      :x="menu.x"
+      :y="menu.y"
+      :items="brewMenuItems"
+      @select="handleBrewAction"
+    />
   </div>
 </template>
 
@@ -130,9 +209,18 @@ import { useRecipeBrewClipboard } from '~/composables/useRecipeBrewClipboard'
 import type { BeerStyle, BrewListItem, RecipeListItem } from '~/types'
 
 const HighlightedText = defineComponent({
-  props: { parts: { type: Array as PropType<Array<{ text: string; match: boolean }>>, required: true } },
+  props: {
+    parts: { type: Array as PropType<Array<{ text: string; match: boolean }>>, required: true },
+  },
   setup(props) {
-    return () => props.parts.map((part, index) => h('span', { key: index, class: part.match ? 'rounded bg-yellow-200 px-0.5 text-yellow-950' : '' }, part.text))
+    return () =>
+      props.parts.map((part, index) =>
+        h(
+          'span',
+          { key: index, class: part.match ? 'rounded bg-yellow-200 px-0.5 text-yellow-950' : '' },
+          part.text,
+        ),
+      )
   },
 })
 
@@ -171,14 +259,18 @@ const brewMenuItems = computed(() => [
   { key: 'delete', label: t('brews.contextMenu.delete'), destructive: true },
 ])
 
-const recipeById = computed<Record<number, RecipeListItem>>(() => Object.fromEntries(recipes.value.map((recipe) => [recipe.id, recipe])))
-const styleNameById = computed<Record<number, string>>(() => Object.fromEntries(styles.value.map((s) => [s.id, s.name])))
+const recipeById = computed<Record<number, RecipeListItem>>(() =>
+  Object.fromEntries(recipes.value.map((recipe) => [recipe.id, recipe])),
+)
+const styleNameById = computed<Record<number, string>>(() =>
+  Object.fromEntries(styles.value.map((s) => [s.id, s.name])),
+)
 function recipeForBrew(brew: BrewListItem) {
   return brew.recipeId == null ? undefined : recipeById.value[brew.recipeId]
 }
 function styleNameForBrew(brew: BrewListItem): string {
   const recipe = recipeForBrew(brew)
-  return recipe?.styleId == null ? '' : styleNameById.value[recipe.styleId] ?? ''
+  return recipe?.styleId == null ? '' : (styleNameById.value[recipe.styleId] ?? '')
 }
 function styleIdForBrew(brew: BrewListItem): number | null {
   return recipeForBrew(brew)?.styleId ?? null
@@ -191,7 +283,18 @@ function brewGroupPath(brew: BrewListItem): string {
   return yearMonth(brew.brewDate)
 }
 function searchable(brew: BrewListItem): string {
-  return [brew.searchText, brew.name, brew.code, brew.notes, brew.brewer, brew.status, styleNameForBrew(brew)].filter(Boolean).join(' ').toLowerCase()
+  return [
+    brew.searchText,
+    brew.name,
+    brew.code,
+    brew.notes,
+    brew.brewer,
+    brew.status,
+    styleNameForBrew(brew),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase()
 }
 
 const filtered = computed(() => {

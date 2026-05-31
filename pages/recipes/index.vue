@@ -3,14 +3,29 @@
     <div class="mb-6 flex items-center justify-between">
       <h1 class="text-2xl font-bold">{{ $t('recipe.title') }}</h1>
       <div class="flex items-center gap-2">
-        <input ref="fileInput" type="file" accept=".xml,.txt,.rec,.pml" class="hidden" @change="onImportFile" />
-        <button class="rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted" @click="fileInput?.click()">
+        <input
+          ref="fileInput"
+          type="file"
+          accept=".xml,.txt,.rec,.pml"
+          class="hidden"
+          @change="onImportFile"
+        />
+        <button
+          class="rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted"
+          @click="fileInput?.click()"
+        >
           {{ $t('recipe.importRecipe') }}
         </button>
-        <button class="rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted" @click="exportCsvFile">
+        <button
+          class="rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted"
+          @click="exportCsvFile"
+        >
           {{ $t('common.exportCsv') }}
         </button>
-        <NuxtLink to="/recipes/new" class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
+        <NuxtLink
+          to="/recipes/new"
+          class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+        >
           {{ $t('recipe.new') }}
         </NuxtLink>
       </div>
@@ -19,12 +34,19 @@
     <p v-if="importMessage" class="mb-4 text-sm text-muted-foreground">{{ importMessage }}</p>
 
     <div class="mb-4 flex flex-wrap items-center gap-3">
-      <div class="flex rounded-md border" role="tablist" :aria-label="$t('styleAnalysis.tabs.label')">
+      <div
+        class="flex rounded-md border"
+        role="tablist"
+        :aria-label="$t('styleAnalysis.tabs.label')"
+      >
         <button
           v-for="tab in viewTabs"
           :key="tab.value"
           type="button"
-          :class="['px-3 py-2 text-sm first:rounded-l-md last:rounded-r-md', activeTab === tab.value ? 'bg-primary text-primary-foreground' : 'hover:bg-muted']"
+          :class="[
+            'px-3 py-2 text-sm first:rounded-l-md last:rounded-r-md',
+            activeTab === tab.value ? 'bg-primary text-primary-foreground' : 'hover:bg-muted',
+          ]"
           @click="activeTab = tab.value"
         >
           {{ $t(tab.label) }}
@@ -36,12 +58,20 @@
         :placeholder="$t('recipes.filter.placeholder')"
         class="w-full max-w-sm rounded-md border bg-background px-3 py-2"
       />
-      <div v-if="activeTab === 'list'" class="flex overflow-hidden rounded-md border" role="group" :aria-label="$t('recipe.groupBy.label')">
+      <div
+        v-if="activeTab === 'list'"
+        class="flex overflow-hidden rounded-md border"
+        role="group"
+        :aria-label="$t('recipe.groupBy.label')"
+      >
         <button
           v-for="option in groupByOptions"
           :key="option.value"
           type="button"
-          :class="['border-l px-3 py-2 text-sm first:border-l-0', groupBy === option.value ? 'bg-primary text-primary-foreground' : 'hover:bg-muted']"
+          :class="[
+            'border-l px-3 py-2 text-sm first:border-l-0',
+            groupBy === option.value ? 'bg-primary text-primary-foreground' : 'hover:bg-muted',
+          ]"
           @click="groupBy = option.value"
         >
           {{ $t(option.label) }}
@@ -61,7 +91,12 @@
       <span class="text-xs text-muted-foreground">{{ $t('recipes.filter.shortcut') }}</span>
     </div>
 
-    <RecipeStyleAnalysis v-if="activeTab === 'style'" :items="styleAnalysisItems" :styles="styles" item-path="/recipes" />
+    <RecipeStyleAnalysis
+      v-if="activeTab === 'style'"
+      :items="styleAnalysisItems"
+      :styles="styles"
+      item-path="/recipes"
+    />
 
     <div v-else class="overflow-hidden rounded-lg border">
       <table class="w-full text-sm">
@@ -92,21 +127,55 @@
             @pointermove="cancelLongPress"
           >
             <td class="p-3"><StockDot :state="recipe.stockState" /></td>
-            <td class="p-3 tabular-nums text-muted-foreground"><HighlightedText :parts="highlightParts(recipe.code || '—')" /></td>
-            <td class="p-3 font-medium"><HighlightedText :parts="highlightParts(recipe.name)" /></td>
+            <td class="p-3 tabular-nums text-muted-foreground">
+              <HighlightedText :parts="highlightParts(recipe.code || '—')" />
+            </td>
+            <td class="p-3 font-medium">
+              <HighlightedText :parts="highlightParts(recipe.name)" />
+            </td>
             <td class="p-3"><HighlightedText :parts="highlightParts(recipe.type)" /></td>
-            <td class="p-3"><HighlightedText :parts="highlightParts(styleName(recipe.styleId) || '—')" /></td>
+            <td class="p-3">
+              <HighlightedText :parts="highlightParts(styleName(recipe.styleId) || '—')" />
+            </td>
             <td class="p-3 text-right">{{ recipe.og?.toFixed(3) || '—' }}</td>
             <td class="p-3 text-right">{{ recipe.ibu?.toFixed(0) || '—' }}</td>
             <td class="p-3 text-right"><ColorCell :color="recipe.color" /></td>
             <td class="p-3 text-right">{{ recipe.abv?.toFixed(1) || '—' }}%</td>
-            <td class="p-3 text-right"><button class="text-primary hover:underline" @click.stop="openRecipeMenu(recipe, $event)">{{ $t('common.actions') }}</button></td>
+            <td class="p-3 text-right">
+              <button
+                class="text-primary hover:underline"
+                @click.stop="openRecipeMenu(recipe, $event)"
+              >
+                {{ $t('common.actions') }}
+              </button>
+            </td>
           </tr>
-          <tr v-if="filtered.length === 0"><td colspan="10" class="p-6 text-center text-muted-foreground">{{ $t('common.noResults') }}</td></tr>
+          <tr v-if="filtered.length === 0">
+            <td colspan="10" class="p-6 text-center text-muted-foreground">
+              {{ $t('common.noResults') }}
+            </td>
+          </tr>
         </tbody>
-        <tbody v-else-if="filtered.length === 0"><tr><td colspan="10" class="p-6 text-center text-muted-foreground">{{ $t('common.noResults') }}</td></tr></tbody>
-        <TreeList v-else :items="filtered" :group-by="recipeGroupPath" key-field="id" storage-key="recipes:tree:expanded" :colspan="10" :force-expand="!!debouncedSearch">
-          <template #header="{ label, count }"><span><HighlightedText :parts="highlightParts(label)" /></span><span class="text-sm text-muted-foreground">({{ count }})</span></template>
+        <tbody v-else-if="filtered.length === 0">
+          <tr>
+            <td colspan="10" class="p-6 text-center text-muted-foreground">
+              {{ $t('common.noResults') }}
+            </td>
+          </tr>
+        </tbody>
+        <TreeList
+          v-else
+          :items="filtered"
+          :group-by="recipeGroupPath"
+          key-field="id"
+          storage-key="recipes:tree:expanded"
+          :colspan="10"
+          :force-expand="!!debouncedSearch"
+        >
+          <template #header="{ label, count }"
+            ><span><HighlightedText :parts="highlightParts(label)" /></span
+            ><span class="text-sm text-muted-foreground">({{ count }})</span></template
+          >
           <template #row="{ item: recipe }">
             <tr
               class="cursor-pointer border-t hover:bg-muted/50"
@@ -118,22 +187,41 @@
               @pointermove="cancelLongPress"
             >
               <td class="p-3"><StockDot :state="recipe.stockState" /></td>
-              <td class="p-3 tabular-nums text-muted-foreground"><HighlightedText :parts="highlightParts(recipe.code || '—')" /></td>
-              <td class="p-3 font-medium"><HighlightedText :parts="highlightParts(recipe.name)" /></td>
+              <td class="p-3 tabular-nums text-muted-foreground">
+                <HighlightedText :parts="highlightParts(recipe.code || '—')" />
+              </td>
+              <td class="p-3 font-medium">
+                <HighlightedText :parts="highlightParts(recipe.name)" />
+              </td>
               <td class="p-3"><HighlightedText :parts="highlightParts(recipe.type)" /></td>
-              <td class="p-3"><HighlightedText :parts="highlightParts(styleName(recipe.styleId) || '—')" /></td>
+              <td class="p-3">
+                <HighlightedText :parts="highlightParts(styleName(recipe.styleId) || '—')" />
+              </td>
               <td class="p-3 text-right">{{ recipe.og?.toFixed(3) || '—' }}</td>
               <td class="p-3 text-right">{{ recipe.ibu?.toFixed(0) || '—' }}</td>
               <td class="p-3 text-right"><ColorCell :color="recipe.color" /></td>
               <td class="p-3 text-right">{{ recipe.abv?.toFixed(1) || '—' }}%</td>
-              <td class="p-3 text-right"><button class="text-primary hover:underline" @click.stop="openRecipeMenu(recipe, $event)">{{ $t('common.actions') }}</button></td>
+              <td class="p-3 text-right">
+                <button
+                  class="text-primary hover:underline"
+                  @click.stop="openRecipeMenu(recipe, $event)"
+                >
+                  {{ $t('common.actions') }}
+                </button>
+              </td>
             </tr>
           </template>
         </TreeList>
       </table>
     </div>
 
-    <ContextMenu v-model="menu.open" :x="menu.x" :y="menu.y" :items="recipeMenuItems" @select="handleRecipeAction" />
+    <ContextMenu
+      v-model="menu.open"
+      :x="menu.x"
+      :y="menu.y"
+      :items="recipeMenuItems"
+      @select="handleRecipeAction"
+    />
   </div>
 </template>
 
@@ -143,19 +231,32 @@ import { ebcToRGB } from '~/server/utils/calculations/color'
 import type { BeerStyle, RecipeListItem } from '~/types'
 
 const HighlightedText = defineComponent({
-  props: { parts: { type: Array as PropType<Array<{ text: string; match: boolean }>>, required: true } },
+  props: {
+    parts: { type: Array as PropType<Array<{ text: string; match: boolean }>>, required: true },
+  },
   setup(props) {
-    return () => props.parts.map((part, index) => h('span', { key: index, class: part.match ? 'rounded bg-yellow-200 px-0.5 text-yellow-950' : '' }, part.text))
+    return () =>
+      props.parts.map((part, index) =>
+        h(
+          'span',
+          { key: index, class: part.match ? 'rounded bg-yellow-200 px-0.5 text-yellow-950' : '' },
+          part.text,
+        ),
+      )
   },
 })
 
 const ColorCell = defineComponent({
   props: { color: { type: Number as PropType<number | null | undefined>, default: null } },
   setup(props) {
-    return () => h('span', { class: 'inline-flex items-center gap-1' }, [
-      h('span', { class: 'h-3 w-3 rounded-full border', style: { backgroundColor: ebcToRGB(props.color ?? 0) } }),
-      `${props.color?.toFixed(0) || '—'} EBC`,
-    ])
+    return () =>
+      h('span', { class: 'inline-flex items-center gap-1' }, [
+        h('span', {
+          class: 'h-3 w-3 rounded-full border',
+          style: { backgroundColor: ebcToRGB(props.color ?? 0) },
+        }),
+        `${props.color?.toFixed(0) || '—'} EBC`,
+      ])
   },
 })
 
@@ -198,7 +299,9 @@ const recipeMenuItems = computed(() => [
   { key: 'delete', label: t('recipes.contextMenu.delete'), destructive: true },
 ])
 
-const styleNameById = computed<Record<number, string>>(() => Object.fromEntries(styles.value.map((s) => [s.id, s.name])))
+const styleNameById = computed<Record<number, string>>(() =>
+  Object.fromEntries(styles.value.map((s) => [s.id, s.name])),
+)
 function styleName(styleId: number | null | undefined): string {
   if (styleId == null) return ''
   return styleNameById.value[styleId] ?? ''
@@ -215,7 +318,17 @@ function recipeGroupPath(recipe: RecipeListItem): string {
 }
 
 function searchable(recipe: RecipeListItem): string {
-  return [recipe.searchText, recipe.name, recipe.code, recipe.type, recipe.notes, styleName(recipe.styleId)].filter(Boolean).join(' ').toLowerCase()
+  return [
+    recipe.searchText,
+    recipe.name,
+    recipe.code,
+    recipe.type,
+    recipe.notes,
+    styleName(recipe.styleId),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase()
 }
 
 const filtered = computed(() => {
@@ -232,7 +345,9 @@ const filtered = computed(() => {
   })
 })
 
-const styleAnalysisItems = computed(() => filtered.value.map((recipe) => ({ ...recipe, styleName: styleName(recipe.styleId) })))
+const styleAnalysisItems = computed(() =>
+  filtered.value.map((recipe) => ({ ...recipe, styleName: styleName(recipe.styleId) })),
+)
 
 function highlightParts(value: string | number | null | undefined) {
   const text = String(value ?? '')
@@ -319,7 +434,11 @@ async function onImportFile(event: Event) {
   if (!file) return
   try {
     const text = await file.text()
-    const res = await $fetch<{ imported: number }>('/api/recipes/import', { method: 'POST', body: text, headers: { 'Content-Type': 'text/plain' } })
+    const res = await $fetch<{ imported: number }>('/api/recipes/import', {
+      method: 'POST',
+      body: text,
+      headers: { 'Content-Type': 'text/plain' },
+    })
     importMessage.value = t('recipe.imported', { count: res.imported })
     await loadRecipes()
   } catch {

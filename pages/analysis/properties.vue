@@ -2,7 +2,9 @@
   <div>
     <div class="flex items-center justify-between mb-2">
       <h1 class="text-2xl font-bold">{{ $t('analysis.properties.title') }}</h1>
-      <NuxtLink to="/analysis" class="px-4 py-2 border rounded-md text-sm print:hidden">{{ $t('common.back') }}</NuxtLink>
+      <NuxtLink to="/analysis" class="px-4 py-2 border rounded-md text-sm print:hidden">{{
+        $t('common.back')
+      }}</NuxtLink>
     </div>
     <p class="text-muted-foreground mb-6">{{ $t('analysis.properties.subtitle') }}</p>
 
@@ -18,7 +20,11 @@
       <label class="flex flex-col text-sm">
         <span class="mb-1 text-muted-foreground">{{ $t('analysis.properties.property') }}</span>
         <select v-model="xKey" class="border rounded-md px-3 py-2 bg-background">
-          <option v-for="property in currentDataset.properties" :key="property.key" :value="property.key">
+          <option
+            v-for="property in currentDataset.properties"
+            :key="property.key"
+            :value="property.key"
+          >
             {{ property.label }}
           </option>
         </select>
@@ -34,7 +40,13 @@
       </label>
       <label v-if="!yKey" class="flex flex-col text-sm">
         <span class="mb-1 text-muted-foreground">{{ $t('analysis.intervals') }}</span>
-        <input v-model.number="bins" type="number" min="1" max="50" class="border rounded-md px-3 py-2 bg-background w-28" />
+        <input
+          v-model.number="bins"
+          type="number"
+          min="1"
+          max="50"
+          class="border rounded-md px-3 py-2 bg-background w-28"
+        />
       </label>
     </div>
 
@@ -51,7 +63,9 @@
       </div>
       <aside class="border rounded-lg p-4 h-fit print:hidden">
         <h2 class="font-semibold mb-3">{{ $t('analysis.properties.points') }}</h2>
-        <p v-if="!graphRows.length" class="text-sm text-muted-foreground">{{ $t('analysis.properties.noData') }}</p>
+        <p v-if="!graphRows.length" class="text-sm text-muted-foreground">
+          {{ $t('analysis.properties.noData') }}
+        </p>
         <button
           v-for="row in graphRows"
           v-else
@@ -167,14 +181,28 @@ const datasets = computed<DatasetConfig[]>(() => [
   },
 ])
 
-const currentDataset = computed(() => datasets.value.find((dataset) => dataset.kind === selectedKind.value) ?? datasets.value[0]!)
-const xProperty = computed(() => currentDataset.value.properties.find((property) => property.key === xKey.value) ?? currentDataset.value.properties[0]!)
-const yProperties = computed(() => currentDataset.value.properties.filter((property) => property.key !== xKey.value))
-const yProperty = computed(() => currentDataset.value.properties.find((property) => property.key === yKey.value) ?? null)
+const currentDataset = computed(
+  () => datasets.value.find((dataset) => dataset.kind === selectedKind.value) ?? datasets.value[0]!,
+)
+const xProperty = computed(
+  () =>
+    currentDataset.value.properties.find((property) => property.key === xKey.value) ??
+    currentDataset.value.properties[0]!,
+)
+const yProperties = computed(() =>
+  currentDataset.value.properties.filter((property) => property.key !== xKey.value),
+)
+const yProperty = computed(
+  () => currentDataset.value.properties.find((property) => property.key === yKey.value) ?? null,
+)
 
 const graphRows = computed<PropertyGraphRow[]>(() =>
   data[selectedKind.value]
-    .map((item) => ({ id: Number(item.id), name: String(item.name ?? ''), values: propertyValues(item) }))
+    .map((item) => ({
+      id: Number(item.id),
+      name: String(item.name ?? ''),
+      values: propertyValues(item),
+    }))
     .filter((row) => row.name),
 )
 
@@ -240,7 +268,9 @@ watch(xKey, () => {
 
 onMounted(async () => {
   pending.value = true
-  const loaded = await Promise.all(datasets.value.map((dataset) => $fetch<Record<string, unknown>[]>(dataset.endpoint)))
+  const loaded = await Promise.all(
+    datasets.value.map((dataset) => $fetch<Record<string, unknown>[]>(dataset.endpoint)),
+  )
   datasets.value.forEach((dataset, index) => {
     data[dataset.kind] = loaded[index] ?? []
   })

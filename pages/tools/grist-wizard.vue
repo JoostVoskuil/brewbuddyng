@@ -70,7 +70,14 @@
           <td class="p-2">{{ r.name }}</td>
           <td class="p-2">
             <div class="flex items-center gap-2">
-              <input v-model.number="r.percent" type="range" min="0" max="100" step="1" class="flex-1" />
+              <input
+                v-model.number="r.percent"
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                class="flex-1"
+              />
               <span class="font-mono w-12 text-right">{{ (r.percent || 0).toFixed(0) }}%</span>
             </div>
           </td>

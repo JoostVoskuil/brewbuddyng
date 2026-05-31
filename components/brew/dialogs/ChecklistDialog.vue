@@ -8,12 +8,22 @@
       <div class="space-y-2 max-h-[60vh] overflow-y-auto">
         <div v-for="(item, index) in rows" :key="index" class="grid grid-cols-[1fr_auto] gap-2">
           <input v-model="item.itemText" class="px-3 py-2 border rounded-md bg-background" />
-          <button type="button" class="px-3 py-2 border rounded-md" @click="rows.splice(index, 1)">−</button>
+          <button type="button" class="px-3 py-2 border rounded-md" @click="rows.splice(index, 1)">
+            −
+          </button>
         </div>
       </div>
       <div class="flex justify-between gap-2">
-        <button type="button" class="px-3 py-2 border rounded-md text-sm" @click="add">{{ $t('common.add') }}</button>
-        <button type="button" class="px-3 py-2 bg-primary text-primary-foreground rounded-md text-sm" @click="save">{{ $t('common.save') }}</button>
+        <button type="button" class="px-3 py-2 border rounded-md text-sm" @click="add">
+          {{ $t('common.add') }}
+        </button>
+        <button
+          type="button"
+          class="px-3 py-2 bg-primary text-primary-foreground rounded-md text-sm"
+          @click="save"
+        >
+          {{ $t('common.save') }}
+        </button>
       </div>
     </div>
   </div>
@@ -27,9 +37,20 @@ const emit = defineEmits<{ close: []; save: [items: BrewChecklistItem[]] }>()
 const rows = ref(props.items.map((item) => ({ ...item })))
 
 function add() {
-  rows.value.push({ id: 0, brewId: props.brewId, itemText: '', checked: false, sortOrder: rows.value.length })
+  rows.value.push({
+    id: 0,
+    brewId: props.brewId,
+    itemText: '',
+    checked: false,
+    sortOrder: rows.value.length,
+  })
 }
 function save() {
-  emit('save', rows.value.filter((item) => item.itemText.trim()).map((item, index) => ({ ...item, sortOrder: index })))
+  emit(
+    'save',
+    rows.value
+      .filter((item) => item.itemText.trim())
+      .map((item, index) => ({ ...item, sortOrder: index })),
+  )
 }
 </script>

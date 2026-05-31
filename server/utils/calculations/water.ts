@@ -154,7 +154,10 @@ export function pHAtRoomTemp(pHMeasured: number, tempC: number): number {
 }
 
 /** Supported acids for pH adjustment, with their strength in mEq per millilitre. */
-export const ACID_MEQ_PER_ML: Record<'lactic88' | 'phosphoric10' | 'phosphoric75' | 'phosphoric85', number> = {
+export const ACID_MEQ_PER_ML: Record<
+  'lactic88' | 'phosphoric10' | 'phosphoric75' | 'phosphoric85',
+  number
+> = {
   lactic88: 11.78, // 88% lactic acid
   phosphoric10: 1.075, // 10% phosphoric acid
   phosphoric75: 12.09, // 75% phosphoric acid
@@ -291,12 +294,19 @@ export function acidForSpargeWater(
 ): SpargeWaterAcidResult {
   const boundedTarget = Math.max(4, Math.min(7, finite(targetPH, 5.6)))
   const residual = residualAlkalinity(water) / 50
-  const carbonateAcidMeq = spargeAcidForTargetPH(water.bicarbonate, volumeL, boundedTarget, 'lactic88').acidMeq
-  const hardnessCreditMeq = Math.max(0, finite(volumeL)) * (finite(water.calcium) / 20.04 / 3.5 + finite(water.magnesium) / 12.15 / 7)
+  const carbonateAcidMeq = spargeAcidForTargetPH(
+    water.bicarbonate,
+    volumeL,
+    boundedTarget,
+    'lactic88',
+  ).acidMeq
+  const hardnessCreditMeq =
+    Math.max(0, finite(volumeL)) *
+    (finite(water.calcium) / 20.04 / 3.5 + finite(water.magnesium) / 12.15 / 7)
   const acidMeq = Math.max(0, carbonateAcidMeq - hardnessCreditMeq)
   const amountMl = acidType === 'acidMalt' ? 0 : acidMeq / ACID_MEQ_PER_ML[acidType]
   // BrouwHulp treats acid malt as lactic acid carried by malt; 3% lactic by weight is a practical sauermalz average.
-  const acidMaltMeqPerGram = 0.03 / 90.08 * 1000
+  const acidMaltMeqPerGram = (0.03 / 90.08) * 1000
   const amountGrams = acidType === 'acidMalt' ? acidMeq / acidMaltMeqPerGram : 0
   return {
     alkalinityMgLAsCaCO3: (Math.max(0, finite(water.bicarbonate)) / 61) * 50,

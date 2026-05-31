@@ -24,7 +24,7 @@ const selectedId = ref<number | null>(null)
 const loading = ref(false)
 const training = ref(false)
 const message = ref('')
-const rmseHistory = ref<Array<{ epoch: number, rmse: number }>>([])
+const rmseHistory = ref<Array<{ epoch: number; rmse: number }>>([])
 const prediction = ref<number[] | null>(null)
 const batchPredictions = ref<number[][]>([])
 const trainingAbort = shallowRef<AbortController | null>(null)
@@ -78,21 +78,37 @@ async function addSamples(samples: NeuralCsvSample[]) {
   }
 }
 
-async function trainNetwork(options: { maxEpochs: number, targetRmse: number, learningRate: number, momentum: number }) {
+async function trainNetwork(options: {
+  maxEpochs: number
+  targetRmse: number
+  learningRate: number
+  momentum: number
+}) {
   if (!selectedNetwork.value) return
   training.value = true
   rmseHistory.value = []
   trainingAbort.value = new AbortController()
   try {
-    const result = await $fetch<{ rmse: number, epochs: number, history?: Array<{ epoch: number, rmse: number }> }>(
-      `/api/neural-networks/${selectedNetwork.value.id}/train`,
-      { method: 'POST', body: { ...options, collectHistory: true }, signal: trainingAbort.value.signal },
-    )
-    rmseHistory.value = result.history?.length ? result.history : [{ epoch: result.epochs, rmse: result.rmse }]
-    message.value = t('analysis.neural.trained', { rmse: result.rmse.toFixed(5), epochs: result.epochs })
+    const result = await $fetch<{
+      rmse: number
+      epochs: number
+      history?: Array<{ epoch: number; rmse: number }>
+    }>(`/api/neural-networks/${selectedNetwork.value.id}/train`, {
+      method: 'POST',
+      body: { ...options, collectHistory: true },
+      signal: trainingAbort.value.signal,
+    })
+    rmseHistory.value = result.history?.length
+      ? result.history
+      : [{ epoch: result.epochs, rmse: result.rmse }]
+    message.value = t('analysis.neural.trained', {
+      rmse: result.rmse.toFixed(5),
+      epochs: result.epochs,
+    })
     await loadNetworks()
   } catch (error) {
-    if ((error as { name?: string }).name === 'AbortError') message.value = t('analysis.neural.stopped')
+    if ((error as { name?: string }).name === 'AbortError')
+      message.value = t('analysis.neural.stopped')
     else throw error
   } finally {
     training.value = false
@@ -151,7 +167,9 @@ async function deleteNetwork(id: number) {
 async function duplicateNetwork(id: number) {
   loading.value = true
   try {
-    const copy = await $fetch<NeuralNetworkItem>(`/api/neural-networks/${id}/duplicate`, { method: 'POST' })
+    const copy = await $fetch<NeuralNetworkItem>(`/api/neural-networks/${id}/duplicate`, {
+      method: 'POST',
+    })
     selectedId.value = copy.id
     message.value = t('analysis.neural.duplicated')
     await loadNetworks()
@@ -176,8 +194,18 @@ async function exportWeights(id: number) {
 }
 
 async function importWeights(file: File) {
-  const payload = JSON.parse(await file.text()) as Partial<NeuralNetworkItem> & { inputSize?: number, outputSize?: number, hiddenLayers?: number[] }
-  const serialized = payload.weights ? JSON.parse(payload.weights) as { inputSize: number, outputSize: number, hiddenLayers: number[] } : payload
+  const payload = JSON.parse(await file.text()) as Partial<NeuralNetworkItem> & {
+    inputSize?: number
+    outputSize?: number
+    hiddenLayers?: number[]
+  }
+  const serialized = payload.weights
+    ? (JSON.parse(payload.weights) as {
+        inputSize: number
+        outputSize: number
+        hiddenLayers: number[]
+      })
+    : payload
   const inputSize = payload.inputParamsList?.length ?? serialized.inputSize ?? 1
   const outputSize = payload.outputParamsList?.length ?? serialized.outputSize ?? 1
   let id = selectedId.value
@@ -186,9 +214,14 @@ async function importWeights(file: File) {
       method: 'POST',
       body: {
         name: payload.name || t('analysis.neural.defaultName'),
-        inputParams: payload.inputParamsList ?? Array.from({ length: inputSize }, (_, index) => `input${index + 1}`),
-        outputParams: payload.outputParamsList ?? Array.from({ length: outputSize }, (_, index) => `output${index + 1}`),
-        hiddenLayers: payload.hiddenLayersList ?? serialized.hiddenLayers ?? [Math.max(1, Math.round((inputSize + outputSize) / 2))],
+        inputParams:
+          payload.inputParamsList ??
+          Array.from({ length: inputSize }, (_, index) => `input${index + 1}`),
+        outputParams:
+          payload.outputParamsList ??
+          Array.from({ length: outputSize }, (_, index) => `output${index + 1}`),
+        hiddenLayers: payload.hiddenLayersList ??
+          serialized.hiddenLayers ?? [Math.max(1, Math.round((inputSize + outputSize) / 2))],
       },
     })
     id = created.id
@@ -209,7 +242,9 @@ await loadNetworks()
         <h1 class="text-2xl font-bold">{{ t('analysis.neural.title') }}</h1>
         <p class="text-muted-foreground">{{ t('analysis.neural.description') }}</p>
       </div>
-      <button type="button" class="btn print:hidden" @click="printPage">{{ t('common.print') }}</button>
+      <button type="button" class="btn print:hidden" @click="printPage">
+        {{ t('common.print') }}
+      </button>
     </header>
 
     <p v-if="message" class="rounded border bg-muted p-3 text-sm font-medium">{{ message }}</p>
@@ -228,8 +263,10 @@ await loadNetworks()
 
     <section v-if="selectedNetwork" class="rounded border p-3 text-sm text-muted-foreground">
       {{ t('analysis.neural.selected') }}: {{ selectedNetwork.name }} ·
-      {{ selectedNetwork.inputParamsList.join(', ') }} → {{ selectedNetwork.outputParamsList.join(', ') }} ·
-      {{ t('analysis.neural.samples') }} {{ selectedNetwork.samplesCount ?? 0 }} · RMSE {{ selectedNetwork.finalError?.toFixed(5) ?? '—' }}
+      {{ selectedNetwork.inputParamsList.join(', ') }} →
+      {{ selectedNetwork.outputParamsList.join(', ') }} · {{ t('analysis.neural.samples') }}
+      {{ selectedNetwork.samplesCount ?? 0 }} · RMSE
+      {{ selectedNetwork.finalError?.toFixed(5) ?? '—' }}
     </section>
 
     <div class="grid gap-4 xl:grid-cols-2">

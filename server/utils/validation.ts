@@ -75,8 +75,22 @@ export const recipeWaterTreatmentUpsert = z.object({
   targetProfile: waterProfileSchema.optional(),
   mashVolumeL: z.number().finite().min(0).default(0),
   spargeVolumeL: z.number().finite().min(0).default(0),
-  mashAdditions: saltAdditionSchema.default({ cacl2: 0, caso4: 0, mgso4: 0, nacl: 0, nahco3: 0, caco3: 0 }),
-  spargeAdditions: saltAdditionSchema.default({ cacl2: 0, caso4: 0, mgso4: 0, nacl: 0, nahco3: 0, caco3: 0 }),
+  mashAdditions: saltAdditionSchema.default({
+    cacl2: 0,
+    caso4: 0,
+    mgso4: 0,
+    nacl: 0,
+    nahco3: 0,
+    caco3: 0,
+  }),
+  spargeAdditions: saltAdditionSchema.default({
+    cacl2: 0,
+    caso4: 0,
+    mgso4: 0,
+    nacl: 0,
+    nahco3: 0,
+    caco3: 0,
+  }),
   acids: z
     .object({
       lactic88Ml: z.number().finite().min(0).default(0),
@@ -102,9 +116,11 @@ export const waterSuggestionMatchProfile = z.object({
   gristEbcDistribution: waterSuggestionGristSchema.array().optional(),
 })
 
-export const waterSuggestionMatchStyle = waterSuggestionMatchProfile.omit({ targetProfileId: true }).extend({
-  styleId: z.number().int().positive(),
-})
+export const waterSuggestionMatchStyle = waterSuggestionMatchProfile
+  .omit({ targetProfileId: true })
+  .extend({
+    styleId: z.number().int().positive(),
+  })
 
 export const equipmentInsert = createInsertSchema(equipment)
 export const equipmentUpdate = equipmentInsert.partial()
@@ -184,13 +200,23 @@ const neuralNetworkBase = createInsertSchema(neuralNetworks)
 export const neuralNetworkCreate = neuralNetworkBase.superRefine((value, ctx) => {
   const inputSize = value.inputSize ?? value.inputParams?.length
   const outputSize = value.outputSize ?? value.outputParams?.length
-  if (!inputSize) ctx.addIssue({ code: 'custom', path: ['inputSize'], message: 'inputSize is required' })
-  if (!outputSize) ctx.addIssue({ code: 'custom', path: ['outputSize'], message: 'outputSize is required' })
+  if (!inputSize)
+    ctx.addIssue({ code: 'custom', path: ['inputSize'], message: 'inputSize is required' })
+  if (!outputSize)
+    ctx.addIssue({ code: 'custom', path: ['outputSize'], message: 'outputSize is required' })
   if (value.inputParams && inputSize !== value.inputParams.length) {
-    ctx.addIssue({ code: 'custom', path: ['inputParams'], message: 'inputParams length must match inputSize' })
+    ctx.addIssue({
+      code: 'custom',
+      path: ['inputParams'],
+      message: 'inputParams length must match inputSize',
+    })
   }
   if (value.outputParams && outputSize !== value.outputParams.length) {
-    ctx.addIssue({ code: 'custom', path: ['outputParams'], message: 'outputParams length must match outputSize' })
+    ctx.addIssue({
+      code: 'custom',
+      path: ['outputParams'],
+      message: 'outputParams length must match outputSize',
+    })
   }
 })
 export const neuralNetworkUpdate = neuralNetworkBase.partial()

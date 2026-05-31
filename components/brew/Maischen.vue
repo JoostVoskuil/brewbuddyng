@@ -5,13 +5,25 @@
         <h3 class="font-semibold">{{ $t('brew.mash.start') }}</h3>
         <label class="text-sm text-muted-foreground block">
           {{ $t('brew.mash.startMash') }}
-          <input v-model="startTime" type="datetime-local" class="w-full mt-1 px-3 py-2 border rounded-md bg-background" />
+          <input
+            v-model="startTime"
+            type="datetime-local"
+            class="w-full mt-1 px-3 py-2 border rounded-md bg-background"
+          />
         </label>
         <div class="flex gap-2">
-          <button type="button" class="px-3 py-2 border rounded-md text-sm" @click="startTime = nowLocal()">
+          <button
+            type="button"
+            class="px-3 py-2 border rounded-md text-sm"
+            @click="startTime = nowLocal()"
+          >
             {{ $t('brew.mash.startNow') }}
           </button>
-          <button type="button" class="px-3 py-2 bg-primary text-primary-foreground rounded-md text-sm" @click="save">
+          <button
+            type="button"
+            class="px-3 py-2 bg-primary text-primary-foreground rounded-md text-sm"
+            @click="save"
+          >
             {{ $t('common.save') }}
           </button>
         </div>
@@ -19,16 +31,34 @@
 
       <div class="border rounded-lg p-4 space-y-2">
         <h3 class="font-semibold">{{ $t('brew.mash.water') }}</h3>
-        <div class="flex justify-between text-sm"><span>{{ $t('recipe.mashWaterTotal') }}</span><span class="font-mono">{{ mashWater.toFixed(1) }} L</span></div>
-        <div class="flex justify-between text-sm"><span>{{ $t('recipe.spargeWater') }}</span><span class="font-mono">{{ spargeWater.toFixed(1) }} L</span></div>
-        <div class="flex justify-between text-sm"><span>{{ $t('databases.spargeTemp') }}</span><span class="font-mono">{{ recipe?.spargeTemp ?? 0 }} °C</span></div>
+        <div class="flex justify-between text-sm">
+          <span>{{ $t('recipe.mashWaterTotal') }}</span
+          ><span class="font-mono">{{ mashWater.toFixed(1) }} L</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span>{{ $t('recipe.spargeWater') }}</span
+          ><span class="font-mono">{{ spargeWater.toFixed(1) }} L</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span>{{ $t('databases.spargeTemp') }}</span
+          ><span class="font-mono">{{ recipe?.spargeTemp ?? 0 }} °C</span>
+        </div>
       </div>
 
       <div class="border rounded-lg p-4 space-y-2">
         <h3 class="font-semibold">{{ $t('brew.overview') }}</h3>
-        <div class="flex justify-between text-sm"><span>{{ $t('recipe.batchSize') }}</span><span class="font-mono">{{ recipe?.batchSize ?? 0 }} L</span></div>
-        <div class="flex justify-between text-sm"><span>{{ $t('recipe.boilSize') }}</span><span class="font-mono">{{ recipe?.boilSize ?? 0 }} L</span></div>
-        <div class="flex justify-between text-sm"><span>{{ $t('recipe.boilTime') }}</span><span class="font-mono">{{ recipe?.boilTime ?? 0 }} min</span></div>
+        <div class="flex justify-between text-sm">
+          <span>{{ $t('recipe.batchSize') }}</span
+          ><span class="font-mono">{{ recipe?.batchSize ?? 0 }} L</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span>{{ $t('recipe.boilSize') }}</span
+          ><span class="font-mono">{{ recipe?.boilSize ?? 0 }} L</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span>{{ $t('recipe.boilTime') }}</span
+          ><span class="font-mono">{{ recipe?.boilTime ?? 0 }} min</span>
+        </div>
       </div>
     </div>
 
@@ -51,7 +81,9 @@
             <td class="p-2 text-right font-mono">{{ step.stepTime }} min</td>
             <td class="p-2 text-right font-mono">{{ step.infuseAmount ?? 0 }} L</td>
           </tr>
-          <tr v-if="!(recipe?.mashSteps?.length)"><td colspan="5" class="p-4 text-muted-foreground">{{ $t('recipe.noMashSteps') }}</td></tr>
+          <tr v-if="!recipe?.mashSteps?.length">
+            <td colspan="5" class="p-4 text-muted-foreground">{{ $t('recipe.noMashSteps') }}</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -76,9 +108,7 @@ watch(
 const mashWater = computed(() =>
   (props.recipe?.mashSteps ?? []).reduce((sum, step) => sum + (step.infuseAmount ?? 0), 0),
 )
-const spargeWater = computed(() =>
-  Math.max(0, (props.recipe?.boilSize ?? 0) - mashWater.value),
-)
+const spargeWater = computed(() => Math.max(0, (props.recipe?.boilSize ?? 0) - mashWater.value))
 
 function toLocalInput(value: string | null | undefined) {
   return value ? value.slice(0, 16) : ''

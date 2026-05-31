@@ -70,8 +70,6 @@ describe('NeuralNetwork', () => {
   })
 })
 
-
-
 describe('FANN-style multi-layer perceptron', () => {
   it('learns XOR deterministically with seeded weights', () => {
     const samples: TrainingSample[] = [

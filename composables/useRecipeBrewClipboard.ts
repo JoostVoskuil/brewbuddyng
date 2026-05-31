@@ -1,7 +1,20 @@
-import type { BrewListItem, NewBrew, NewRecipe, RecipeListItem, RecipeWithIngredients } from '~/types'
+import type {
+  BrewListItem,
+  NewBrew,
+  NewRecipe,
+  RecipeListItem,
+  RecipeWithIngredients,
+} from '~/types'
 
 type RecipeChildKey = 'fermentables' | 'hops' | 'yeasts' | 'miscs' | 'waters' | 'mashSteps'
-const childKeys: RecipeChildKey[] = ['fermentables', 'hops', 'yeasts', 'miscs', 'waters', 'mashSteps']
+const childKeys: RecipeChildKey[] = [
+  'fermentables',
+  'hops',
+  'yeasts',
+  'miscs',
+  'waters',
+  'mashSteps',
+]
 
 function stripServerFields<T extends Record<string, unknown>>(row: T) {
   const { id: _id, recipeId: _recipeId, ...rest } = row
@@ -27,7 +40,13 @@ function recipeBody(recipe: RecipeListItem | RecipeWithIngredients, name = recip
 }
 
 function brewBody(brew: BrewListItem, name = brew.name): NewBrew {
-  const { id: _id, createdAt: _createdAt, searchText: _searchText, stockState: _stockState, ...body } = brew
+  const {
+    id: _id,
+    createdAt: _createdAt,
+    searchText: _searchText,
+    stockState: _stockState,
+    ...body
+  } = brew
   return { ...body, name } as NewBrew
 }
 

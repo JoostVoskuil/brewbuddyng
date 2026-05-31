@@ -78,9 +78,7 @@
               <td class="p-3 text-right">
                 <span class="font-mono font-semibold">{{ Math.round(r.score * 100) }}%</span>
               </td>
-              <td class="p-3 text-right font-mono">
-                {{ r.inRangeCount }}/{{ r.evaluatedCount }}
-              </td>
+              <td class="p-3 text-right font-mono">{{ r.inRangeCount }}/{{ r.evaluatedCount }}</td>
             </tr>
           </tbody>
         </table>

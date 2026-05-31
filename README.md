@@ -4,12 +4,13 @@ A friendly brewing companion for homebrewers and small breweries. Plan recipes, 
 days, and use a full set of brewing calculators — all from your web browser.
 
 > [!WARNING]
+>
 > ## ⚠️ DISCLAIMER — Copilot rebuild, not production-tested
 >
 > **This application was rebuilt entirely with GitHub Copilot and has NOT been tested properly.**
 > It is an experimental reimplementation of the original desktop program. Calculations may contain
 > errors. Data may be lost. **Do not use this for critical brewing decisions or in production
-> environments without independent verification.**  Contributions, bug reports, and test coverage
+> environments without independent verification.** Contributions, bug reports, and test coverage
 > are very welcome.
 >
 > **Source:** <https://github.com/JoostVoskuil/brewbuddyng>

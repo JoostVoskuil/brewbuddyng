@@ -10,10 +10,16 @@
     <div class="flex items-center justify-between mb-2 print:hidden">
       <h1 class="text-2xl font-bold">{{ $t('inventory.title') }}</h1>
       <div class="flex items-center gap-2">
-        <button class="px-3 py-2 border rounded-md text-sm font-medium hover:bg-muted" @click="exportCurrentCsv">
+        <button
+          class="px-3 py-2 border rounded-md text-sm font-medium hover:bg-muted"
+          @click="exportCurrentCsv"
+        >
           {{ $t('common.exportCsv') }}
         </button>
-        <button class="px-3 py-2 border rounded-md text-sm font-medium hover:bg-muted" @click="printReport">
+        <button
+          class="px-3 py-2 border rounded-md text-sm font-medium hover:bg-muted"
+          @click="printReport"
+        >
           {{ $t('common.print') }}
         </button>
       </div>
@@ -28,7 +34,11 @@
           v-for="tab in tabs"
           :key="tab.kind"
           class="px-3 py-2 text-sm border-b-2 -mb-px"
-          :class="activeKind === tab.kind ? 'border-primary font-semibold' : 'border-transparent text-muted-foreground'"
+          :class="
+            activeKind === tab.kind
+              ? 'border-primary font-semibold'
+              : 'border-transparent text-muted-foreground'
+          "
           @click="activeKind = tab.kind"
         >
           {{ $t(tab.labelKey) }}
@@ -96,7 +106,9 @@
                     type="checkbox"
                     class="rounded print:hidden"
                   />
-                  <span class="hidden print:inline">{{ row.alwaysOnStock ? $t('common.yes') : $t('common.no') }}</span>
+                  <span class="hidden print:inline">{{
+                    row.alwaysOnStock ? $t('common.yes') : $t('common.no')
+                  }}</span>
                   <span v-if="!row.stockTracked">—</span>
                 </td>
                 <td class="p-2 text-right font-mono">
@@ -110,12 +122,16 @@
                     :disabled="savingId === `${row.kind}-${row.id}`"
                     @click="save(row)"
                   >
-                    {{ savingId === `${row.kind}-${row.id}` ? $t('common.saving') : $t('common.save') }}
+                    {{
+                      savingId === `${row.kind}-${row.id}` ? $t('common.saving') : $t('common.save')
+                    }}
                   </button>
                 </td>
               </tr>
               <tr v-if="filteredRows.length === 0">
-                <td colspan="8" class="p-3 text-center text-muted-foreground">{{ $t('common.noResults') }}</td>
+                <td colspan="8" class="p-3 text-center text-muted-foreground">
+                  {{ $t('common.noResults') }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -131,7 +147,12 @@
 </template>
 
 <script setup lang="ts">
-import { useInventoryFilter, type InventoryFilters, type InventoryKind, type InventoryRow } from '~/composables/useInventoryFilter'
+import {
+  useInventoryFilter,
+  type InventoryFilters,
+  type InventoryKind,
+  type InventoryRow,
+} from '~/composables/useInventoryFilter'
 
 type RawRow = Record<string, unknown>
 
@@ -151,14 +172,49 @@ const pending = ref(true)
 const savingId = ref<string | null>(null)
 const activeKind = ref<InventoryKind>('fermentables')
 const brewerySettings = ref<Record<string, string>>({})
-const filters = reactive<InventoryFilters>({ search: '', type: '', onStockOnly: false, lowStockOnly: false })
+const filters = reactive<InventoryFilters>({
+  search: '',
+  type: '',
+  onStockOnly: false,
+  lowStockOnly: false,
+})
 
 const tabs: TabConfig[] = [
-  { kind: 'fermentables', endpoint: '/api/fermentables', unit: 'kg', labelKey: 'inventory.fermentables', stockTracked: true },
-  { kind: 'hops', endpoint: '/api/hops', unit: 'g', labelKey: 'inventory.hops', stockTracked: true },
-  { kind: 'yeasts', endpoint: '/api/yeasts', unit: 'pkg', labelKey: 'inventory.yeasts', stockTracked: true },
-  { kind: 'miscs', endpoint: '/api/miscs', unit: 'g', labelKey: 'inventory.miscs', stockTracked: true },
-  { kind: 'waters', endpoint: '/api/waters', unit: '', labelKey: 'inventory.waters', stockTracked: false },
+  {
+    kind: 'fermentables',
+    endpoint: '/api/fermentables',
+    unit: 'kg',
+    labelKey: 'inventory.fermentables',
+    stockTracked: true,
+  },
+  {
+    kind: 'hops',
+    endpoint: '/api/hops',
+    unit: 'g',
+    labelKey: 'inventory.hops',
+    stockTracked: true,
+  },
+  {
+    kind: 'yeasts',
+    endpoint: '/api/yeasts',
+    unit: 'pkg',
+    labelKey: 'inventory.yeasts',
+    stockTracked: true,
+  },
+  {
+    kind: 'miscs',
+    endpoint: '/api/miscs',
+    unit: 'g',
+    labelKey: 'inventory.miscs',
+    stockTracked: true,
+  },
+  {
+    kind: 'waters',
+    endpoint: '/api/waters',
+    unit: '',
+    labelKey: 'inventory.waters',
+    stockTracked: false,
+  },
 ]
 
 const rowsByKind = reactive<Record<InventoryKind, InventoryRow[]>>({
@@ -171,13 +227,25 @@ const rowsByKind = reactive<Record<InventoryKind, InventoryRow[]>>({
 
 const activeTab = computed(() => tabs.find((tab) => tab.kind === activeKind.value) ?? tabs[0]!)
 const currentRows = computed(() => rowsByKind[activeKind.value])
-const typeOptions = computed(() => Array.from(new Set(currentRows.value.map((row) => row.type).filter(Boolean))).sort())
+const typeOptions = computed(() =>
+  Array.from(new Set(currentRows.value.map((row) => row.type).filter(Boolean))).sort(),
+)
 const filteredRows = computed(() => filterInventoryRows(currentRows.value, filters))
-const printBreweryName = computed(() => brewerySettings.value.breweryName || t('settings.printHeader'))
+const printBreweryName = computed(
+  () => brewerySettings.value.breweryName || t('settings.printHeader'),
+)
 const printBreweryLogo = computed(() => brewerySettings.value.breweryLogo || '')
-const generatedAt = computed(() => new Intl.DateTimeFormat(locale.value, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date()))
+const generatedAt = computed(() =>
+  new Intl.DateTimeFormat(locale.value, { dateStyle: 'medium', timeStyle: 'short' }).format(
+    new Date(),
+  ),
+)
 const totalValue = computed(() =>
-  tabs.reduce((sum, tab) => sum + rowsByKind[tab.kind].reduce((part, row) => part + (row.inventory ?? 0) * row.cost, 0), 0),
+  tabs.reduce(
+    (sum, tab) =>
+      sum + rowsByKind[tab.kind].reduce((part, row) => part + (row.inventory ?? 0) * row.cost, 0),
+    0,
+  ),
 )
 
 watch(activeKind, () => {

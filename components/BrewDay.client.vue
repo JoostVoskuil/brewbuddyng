@@ -18,8 +18,9 @@
           <div>
             <div class="font-medium">{{ i + 1 }}. {{ step.name }}</div>
             <div class="text-sm text-muted-foreground">
-              {{ Math.round(step.stepTemp) }}&nbsp;°C ·
-              {{ Math.round(step.stepTime) }}&nbsp;{{ $t('brewDay.min') }}
+              {{ Math.round(step.stepTemp) }}&nbsp;°C · {{ Math.round(step.stepTime) }}&nbsp;{{
+                $t('brewDay.min')
+              }}
               <template v-if="(step.infuseAmount ?? 0) > 0">
                 · {{ $t('brewDay.infuse') }} {{ formatL(step.infuseAmount) }}&nbsp;L
               </template>
@@ -30,10 +31,7 @@
           </div>
         </div>
         <div class="flex gap-2 mt-2">
-          <button
-            class="px-3 py-1 border rounded text-xs"
-            @click="toggle(i)"
-          >
+          <button class="px-3 py-1 border rounded text-xs" @click="toggle(i)">
             {{ running[i] ? $t('brewDay.pause') : $t('brewDay.start') }}
           </button>
           <button class="px-3 py-1 border rounded text-xs" @click="reset(i)">
