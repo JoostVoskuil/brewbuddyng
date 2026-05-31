@@ -357,7 +357,8 @@
       },
       "metingen": {
         "title": "Metingen",
-        "cells": "Cellen"
+        "cells": "Cellen",
+        "addMeasurement": "Meting toevoegen"
       }
     },
     "mash": {
@@ -883,6 +884,7 @@
     "noData": "Geen passende stijlen om te analyseren.",
     "withinRange": "binnen bereik",
     "nearRange": "bijna binnen bereik",
-    "outsideRange": "buiten bereik"
+    "outsideRange": "buiten bereik",
+    "noRange": "geen stijl"
   }
 }

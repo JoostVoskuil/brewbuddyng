@@ -68,7 +68,7 @@
     <BrewChecklist v-else-if="activeTab === 'checklist'" :brew="brew" :recipe="recipe" @save="saveBrew" />
     <BrewVergisting v-else-if="activeTab === 'vergisting'" :brew="brew" @save="saveBrew" />
     <BrewBottelen v-else-if="activeTab === 'bottelen'" :brew="brew" @save="saveBrew" />
-    <BrewMetingen v-else-if="activeTab === 'metingen'" :measurements="brew.measurements" />
+    <BrewMetingen v-else-if="activeTab === 'metingen'" :measurements="brew.measurements" :brew-id="brew.id" @add-measurement="refreshAll" />
     <BrewNotities v-else :brew="brew" :recipe="recipe" @save="saveBrew" />
 
     <BrewDialogsDivideBrewDialog v-if="showDivideDialog && brew" :brew-id="brew.id" :brew-name="brew.name" @close="showDivideDialog = false" @divided="onDivided" />

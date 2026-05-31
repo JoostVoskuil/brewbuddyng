@@ -357,7 +357,8 @@
       },
       "metingen": {
         "title": "Measurements",
-        "cells": "Cells"
+        "cells": "Cells",
+        "addMeasurement": "Add measurement"
       }
     },
     "mash": {
@@ -883,6 +884,7 @@
     "noData": "No matching styles to analyse.",
     "withinRange": "within range",
     "nearRange": "near range",
-    "outsideRange": "outside range"
+    "outsideRange": "outside range",
+    "noRange": "no style"
   }
 }

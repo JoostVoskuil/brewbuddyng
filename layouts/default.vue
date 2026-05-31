@@ -38,6 +38,11 @@
       <header class="h-14 border-b flex items-center justify-between px-6 print:hidden">
         <div />
         <div class="flex items-center gap-2">
+          <button
+            class="text-sm border rounded px-2 py-1 bg-background hover:bg-muted transition-colors"
+            :title="themeLabel"
+            @click="cycleTheme"
+          >{{ themeIcon }}</button>
           <select
             :value="locale"
             class="text-sm border rounded px-2 py-1 bg-background"
@@ -68,6 +73,24 @@ import {
 } from '@lucide/vue'
 
 const { locale, setLocale } = useI18n()
+const { settings, apply } = useTheme()
+
+type ThemeMode = 'light' | 'dark' | 'system'
+
+const themeIcons: Record<ThemeMode, string> = { light: '☀️', dark: '🌙', system: '💻' }
+const themeLabels: Record<ThemeMode, string> = { light: 'Light', dark: 'Dark', system: 'System' }
+const themeCycle: Record<ThemeMode, ThemeMode> = { light: 'dark', dark: 'system', system: 'light' }
+
+const currentMode = computed(() => (settings.value.themeMode as ThemeMode) || 'system')
+const themeIcon = computed(() => themeIcons[currentMode.value])
+const themeLabel = computed(() => themeLabels[currentMode.value])
+
+async function cycleTheme() {
+  const next = themeCycle[currentMode.value]
+  await $fetch('/api/settings', { method: 'PUT', body: { themeMode: next } })
+  settings.value = { ...settings.value, themeMode: next }
+  apply()
+}
 
 const navItems = [
   { to: '/recipes', label: 'nav.recipes', icon: BookOpen },

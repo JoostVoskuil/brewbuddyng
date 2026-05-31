@@ -3,6 +3,17 @@
 A friendly brewing companion for homebrewers and small breweries. Plan recipes, track your brew
 days, and use a full set of brewing calculators — all from your web browser.
 
+> [!WARNING]
+> ## ⚠️ DISCLAIMER — Copilot rebuild, not production-tested
+>
+> **This application was rebuilt entirely with GitHub Copilot and has NOT been tested properly.**
+> It is an experimental reimplementation of the original desktop program. Calculations may contain
+> errors. Data may be lost. **Do not use this for critical brewing decisions or in production
+> environments without independent verification.**  Contributions, bug reports, and test coverage
+> are very welcome.
+>
+> **Source:** <https://github.com/JoostVoskuil/brewbuddyng>
+
 > [!IMPORTANT]
 > **This application is a complete rebuild of the original
 > [BrewBuddyOrg/BrewBuddy](https://github.com/BrewBuddyOrg/BrewBuddy)** (formerly **BrouwHulp** by
@@ -123,7 +134,7 @@ docker run -d \
   -p 3000:3000 \
   -v ~/brewbuddy-data:/data \
   --restart unless-stopped \
-  ghcr.io/joostvoskuil/brewbuddy:latest
+  ghcr.io/joostvoskuil/brewbuddyng:latest
 ```
 
 **Windows (Command Prompt):**
@@ -134,7 +145,7 @@ docker run -d ^
   -p 3000:3000 ^
   -v C:\BrewBuddy:/data ^
   --restart unless-stopped ^
-  ghcr.io/joostvoskuil/brewbuddy:latest
+  ghcr.io/joostvoskuil/brewbuddyng:latest
 ```
 
 Docker will download the pre-built image automatically — no source code needed. This takes a minute or two the first time.
@@ -158,7 +169,7 @@ folder (or your Windows folder), not inside the container, so they survive updat
 
 ```bash
 # 1. Download the newest version
-docker pull ghcr.io/joostvoskuil/brewbuddy:latest
+docker pull ghcr.io/joostvoskuil/brewbuddyng:latest
 
 # 2. Stop and remove the old container (your data folder is untouched)
 docker stop brewbuddy
@@ -170,7 +181,7 @@ docker run -d \
   -p 3000:3000 \
   -v ~/brewbuddy-data:/data \
   --restart unless-stopped \
-  ghcr.io/joostvoskuil/brewbuddy:latest
+  ghcr.io/joostvoskuil/brewbuddyng:latest
 ```
 
 On Windows, use your folder (e.g. `-v C:\BrewBuddy:/data`) and `^` line breaks as in Step 3.
@@ -184,7 +195,7 @@ docker compose up -d  # recreate the container with the new image
 
 > [!TIP]
 > To go back to a specific older version, replace `:latest` with a version tag (for example
-> `ghcr.io/joostvoskuil/brewbuddy:2.0.2`). After updating, check the running version at the bottom
+> `ghcr.io/joostvoskuil/brewbuddyng:1.0.0`). After updating, check the running version at the bottom
 > of the BrewBuddyNG **Settings** page or open <http://localhost:3000/api/health>.
 
 ### Where is my data?

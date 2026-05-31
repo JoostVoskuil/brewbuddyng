@@ -20,6 +20,7 @@
           ></span>
         </template>
         <div
+          v-if="hasRange && props.value != null"
           class="absolute top-0 -translate-x-1/2 text-sm leading-none"
           :class="statusClass"
           :style="markerStyle"
@@ -55,8 +56,9 @@ const clusterValues = computed(() =>
   (props.values ?? []).filter((value): value is number => value != null && Number.isFinite(value)),
 )
 
-const status = computed<'withinRange' | 'nearRange' | 'outsideRange'>(() => {
-  if (!hasRange.value || props.value == null) return 'withinRange'
+const status = computed<'withinRange' | 'nearRange' | 'outsideRange' | 'noRange'>(() => {
+  if (!hasRange.value) return 'noRange'
+  if (props.value == null) return 'noRange'
   const min = Number(props.min)
   const max = Number(props.max)
   if (props.value >= min && props.value <= max) return 'withinRange'
@@ -68,6 +70,7 @@ const statusClass = computed(() => ({
   withinRange: 'text-green-600 dark:text-green-400',
   nearRange: 'text-amber-600 dark:text-amber-400',
   outsideRange: 'text-red-600 dark:text-red-400',
+  noRange: 'text-muted-foreground',
 }[status.value]))
 
 const domain = computed(() => {
