@@ -1,7 +1,9 @@
-import { eq } from 'drizzle-orm'
+import { eq, type InferSelectModel } from 'drizzle-orm'
 import { z } from 'zod'
 import { useDB } from '~/server/db'
 import { brews, brewDivisions } from '~/server/db/schema'
+
+type Brew = InferSelectModel<typeof brews>
 
 const divideRequest = z.object({
   children: z
@@ -34,7 +36,7 @@ export default defineEventHandler(async (event) => {
     (parent.volumeFermenter ?? 0) || (parent.bottleVolume ?? 0) + (parent.kegVolume ?? 0)
   const created = []
   for (const child of body.children) {
-    const [brew] = await db
+    const inserted: Brew[] = await db
       .insert(brews)
       .values({
         ...parent,
@@ -56,6 +58,8 @@ export default defineEventHandler(async (event) => {
         createdAt: now,
       })
       .returning()
+    const brew = inserted[0]
+    if (!brew) throw createError({ statusCode: 500, message: 'Failed to create brew' })
 
     await db.insert(brewDivisions).values({
       parentBrewId: id,
